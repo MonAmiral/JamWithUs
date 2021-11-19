@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
+	public bool AutoPause;
+	
 	public Slider MusicSlider, SFXSlider;
 
 	public TMPro.TMP_InputField WidthField, HeightField;
@@ -22,12 +24,18 @@ public class SettingsMenu : MonoBehaviour
 		this.SFXSlider.SetValueWithoutNotify(Settings.SFXVolume);
 		this.MusicSlider.SetValueWithoutNotify(Settings.MusicVolume);
 
-		Time.timeScale = 0f;
+		if (this.AutoPause)
+		{
+			Time.timeScale = 0f;
+		}
 	}
 
 	private void OnDisable()
 	{
-		Time.timeScale = 1f;
+		if (this.AutoPause)
+		{
+			Time.timeScale = 1f;
+		}
 	}
 
 	public void SetMusicVolume(float value)
