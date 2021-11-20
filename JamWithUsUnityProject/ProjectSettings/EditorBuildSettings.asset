@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 13e8083efda0899439a361b71c144c60
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Scenes/ZooProgramming.unity
     guid: 1fcf9379fa2593d418a70fe5ae47bead
   m_configObjects: {}

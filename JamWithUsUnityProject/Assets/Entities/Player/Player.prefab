@@ -66,12 +66,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.49914613
       value: 0.017931223
-      inSlope: 0
-      outSlope: 0
+      inSlope: -4.6393533
+      outSlope: -4.6393533
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.30754086
     - serializedVersion: 3
       time: 1
       value: -7
@@ -203,9 +203,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   DashCooldown: 0.5
+  MaximumCorruption: 20
+  StartingCorruption: 0
+  CorruptionPerSecond: 1
   Model: {fileID: 2260045985280525607}
   Animator: {fileID: 6496441465800502981}
   AudioSource: {fileID: 3281399485387619076}
+  GameUI: {fileID: 0}
   Footsteps:
   - {fileID: 8300000, guid: 76dd1de1ca1ae61438d8cd63d68d46da, type: 3}
   - {fileID: 8300000, guid: e5c4c763ccef82641822548b40541203, type: 3}
@@ -222,6 +226,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7f195db45da29464a946db3e029ebff1, type: 3}
   - {fileID: 8300000, guid: 01c281fb663b34f42a4a9492adefbdfd, type: 3}
   - {fileID: 8300000, guid: 1ebf621f6e25a1643976bad351e0e809, type: 3}
+  Potion:
+  - {fileID: 8300000, guid: 64abd7d991bbaa54280ee564cbd474b9, type: 3}
 --- !u!60 &6496441464656956242
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -425,6 +431,10 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 7174e80064ddf59418f8a246196af24a, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 269176353797694366, guid: 7174e80064ddf59418f8a246196af24a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1260653454431600376, guid: 7174e80064ddf59418f8a246196af24a, type: 3}
       propertyPath: m_IsActive

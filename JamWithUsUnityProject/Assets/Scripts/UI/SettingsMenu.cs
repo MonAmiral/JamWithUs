@@ -67,6 +67,15 @@ public class SettingsMenu : MonoBehaviour
 		Time.timeScale = 1f;
 	}
 
+	public void ReloadScene()
+	{
+		this.Curtain.Play("FadeIn");
+
+		this.pendingSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+		this.Invoke(nameof(LoadPendingScene), 0.5f);
+		Time.timeScale = 1f;
+	}
+
 	private void LoadPendingScene()
 	{
 		UnityEngine.SceneManagement.SceneManager.LoadScene(this.pendingSceneName);

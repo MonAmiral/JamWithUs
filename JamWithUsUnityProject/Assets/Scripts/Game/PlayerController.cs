@@ -38,9 +38,13 @@ public class PlayerController : MonoBehaviour
 	private float dashTime;
 	private bool hasLandedAfterDash;
 	private float verticalSpeed;
-	private RaycastHit2D[] movementHits = new RaycastHit2D[1];
+	private Vector3 lastVelocity;
 
 	private int facing = 2;
+	private RaycastHit2D[] movementHits = new RaycastHit2D[1];
+
+	private bool gameHasStarted;
+	private bool gameIsOver;
 
 	[Header("Dash")]
 	[Tooltip("La vitesse horizontale lors d'un dash.\n-X = temps en secondes, Y = multiplicateur de la vitesse de déplacement.\nLe dash se termine lorsque le temps dépasse la position du dernier point de la courbe.")]
@@ -49,15 +53,23 @@ public class PlayerController : MonoBehaviour
 	[Tooltip("Le temps d'attente en secondes entre le contact avec le sol après un dash et le moment où le joueur peut de nouveau dash.")]
 	public float DashCooldown;
 
+	[Header("Corruption")]
+	public float MaximumCorruption;
+	public float StartingCorruption;
+	public float CorruptionPerSecond;
+	private float currentCorruption;
+
 	[Header("References")]
 	public Transform Model;
 	public Animator Animator;
 	public AudioSource AudioSource;
+	public GameUI GameUI;
 
 	[Header("Audio")]
 	public AudioClip[] Footsteps;
 	public AudioClip[] JumpStart;
 	public AudioClip[] Dash;
+	public AudioClip[] Potion;
 
 	private void Start()
 	{
@@ -67,9 +79,27 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		this.horizontalInput = Input.GetAxis("Horizontal");
+		if (this.gameIsOver)
+		{
+			return;
+		}
 
+		if (Time.timeScale < 0.1f)
+		{
+			return;
+		}
+
+		this.UpdateInput();
+		this.UpdateCorruption();
+		this.UpdateAnimator();
+	}
+
+	private void UpdateInput()
+	{
+		this.horizontalInput = Input.GetAxis("Horizontal");
 		this.Model.localRotation = Quaternion.Lerp(this.Model.localRotation, Quaternion.Euler(Vector3.up * 90 * this.facing), Time.deltaTime * this.RotationSpeed);
+
+		this.gameHasStarted |= this.horizontalInput != 0f;
 
 		if (this.dashTime <= 0f)
 		{
@@ -78,6 +108,7 @@ public class PlayerController : MonoBehaviour
 			{
 				if (Input.GetButtonDown("Jump"))
 				{
+					this.gameHasStarted = true;
 					this.StartJump();
 				}
 			}
@@ -89,6 +120,7 @@ public class PlayerController : MonoBehaviour
 				{
 					if (Input.GetButtonDown("Dash"))
 					{
+						this.gameHasStarted = true;
 						this.StartDash();
 					}
 				}
@@ -98,7 +130,37 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 		}
+	}
 
+	private void UpdateCorruption()
+	{
+		if (this.gameHasStarted)
+		{
+			this.currentCorruption = Mathf.Min(this.currentCorruption + this.CorruptionPerSecond * Time.deltaTime, this.MaximumCorruption);
+		}
+
+		this.GameUI.CorruptionBar.fillAmount = this.currentCorruption / this.MaximumCorruption;
+		this.GameUI.CorruptionAnimator.SetFloat("CorruptionRatio", this.currentCorruption / this.MaximumCorruption);
+		this.Animator.SetFloat("CorruptionRatio", this.currentCorruption / this.MaximumCorruption);
+
+		int percentage = (int)((this.currentCorruption / this.MaximumCorruption) * 100f);
+		if (percentage > 8)
+		{
+			this.GameUI.CorruptionLabel.text = $"{percentage}%";
+		}
+		else
+		{
+			this.GameUI.CorruptionLabel.text = $"0{percentage}%";
+		}
+
+		if (this.currentCorruption >= this.MaximumCorruption)
+		{
+			this.GameOver();
+		}
+	}
+
+	private void UpdateAnimator()
+	{
 		this.Animator.SetFloat("SpeedRatio", Mathf.Abs(this.horizontalSpeedRatio));
 		this.Animator.SetBool("IsFalling", this.verticalSpeed < 0f);
 		this.Animator.SetBool("IsOnGround", this.airTime == 0f && this.hasLandedAfterDash);
@@ -107,6 +169,14 @@ public class PlayerController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		this.rigidbody.velocity *= 0.8f;
+
+		if (this.gameIsOver)
+		{
+			this.lastVelocity *= 0.9f;
+			this.transform.position += this.lastVelocity;
+
+			return;
+		}
 
 		Vector2 position = this.transform.position;
 		float deltaTime = Time.fixedDeltaTime;
@@ -119,12 +189,15 @@ public class PlayerController : MonoBehaviour
 		{
 			this.UpdateNormalVelocityAndMove(position, deltaTime);
 		}
+
+		this.lastVelocity = this.transform.position - (Vector3)position;
 	}
 
 	private void UpdateDashVelocityAndMove(Vector2 position, float deltaTime)
 	{
 		this.horizontalSpeedRatio = this.facing * this.DashHorizontalSpeed.Evaluate(this.dashTime);
 		this.dashTime += deltaTime;
+
 		this.rigidbody.MovePosition(position + Vector2.right * this.horizontalSpeedRatio * this.MovementSpeed * deltaTime);
 
 		if (this.dashTime > this.dashDuration)
@@ -200,7 +273,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		// Move.
-		if (this.rigidbody.Cast(goalPosition - position, this.movementHits) > 0 && this.movementHits[0].normal.y < 0.5f)
+		if (this.rigidbody.Cast(goalPosition - position, this.movementHits) > 0 && !this.movementHits[0].collider.isTrigger && this.movementHits[0].normal.y < 0.5f)
 		{
 			float distance = Vector2.Distance(hit.point, this.rigidbody.ClosestPoint(hit.point)) - 0.05f;
 			goalPosition = Vector2.MoveTowards(position, goalPosition, distance);
@@ -209,7 +282,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		this.rigidbody.MovePosition(goalPosition);
-		
+
 	}
 
 	private void StartJump()
@@ -234,6 +307,10 @@ public class PlayerController : MonoBehaviour
 		{
 			this.facing = (int)Mathf.Sign(this.horizontalInput);
 		}
+		else if (this.facing == 2)
+		{
+			this.facing = 1;
+		}
 
 		if (this.isJumping)
 		{
@@ -252,6 +329,56 @@ public class PlayerController : MonoBehaviour
 		this.airTime = 0;
 
 		this.Animator.SetTrigger("DashEnd");
+	}
+
+	private void GameOver()
+	{
+		this.gameIsOver = true;
+		this.Animator.SetTrigger("CorruptionComplete");
+
+		this.GameUI.enabled = false;
+		this.GameUI.GameInterface.SetActive(false);
+		this.GameUI.GameOverScreen.SetActive(true);
+
+		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.RestartButton);
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.tag == "Potion")
+		{
+			Potion potion = collision.GetComponentInParent<Potion>();
+			this.currentCorruption = Mathf.Clamp(this.currentCorruption + potion.Corruption, 0f, this.MaximumCorruption);
+
+			this.PlaySound(this.Potion);
+
+			if (potion.InvertControls)
+			{
+
+			}
+
+			if (potion.DrunkEffect)
+			{
+
+			}
+
+			if (potion.Adrenaline)
+			{
+
+			}
+
+			if (potion.ReduceVision)
+			{
+
+			}
+
+			if (potion.Shadow)
+			{
+
+			}
+
+			potion.Collect();
+		}
 	}
 
 	public void Step()
