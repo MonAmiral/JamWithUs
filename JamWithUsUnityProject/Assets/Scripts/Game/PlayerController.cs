@@ -52,6 +52,12 @@ public class PlayerController : MonoBehaviour
 	[Header("References")]
 	public Transform Model;
 	public Animator Animator;
+	public AudioSource AudioSource;
+
+	[Header("Audio")]
+	public AudioClip[] Footsteps;
+	public AudioClip[] JumpStart;
+	public AudioClip[] Dash;
 
 	private void Start()
 	{
@@ -95,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
 		this.Animator.SetFloat("SpeedRatio", Mathf.Abs(this.horizontalSpeedRatio));
 		this.Animator.SetBool("IsFalling", this.verticalSpeed < 0f);
-		this.Animator.SetBool("IsOnGround", this.airTime == 0f);
+		this.Animator.SetBool("IsOnGround", this.airTime == 0f && this.hasLandedAfterDash);
 	}
 
 	private void FixedUpdate()
@@ -203,6 +209,7 @@ public class PlayerController : MonoBehaviour
 		this.airTime = 0f;
 
 		this.Animator.SetBool("IsJumping", true);
+		this.PlaySound(this.JumpStart);
 	}
 
 	private void EndJump()
@@ -226,6 +233,7 @@ public class PlayerController : MonoBehaviour
 
 		this.dashTime = float.Epsilon;
 		this.Animator.SetTrigger("DashStart");
+		this.PlaySound(this.Dash);
 	}
 
 	private void EndDash()
@@ -235,5 +243,20 @@ public class PlayerController : MonoBehaviour
 		this.airTime = 0;
 
 		this.Animator.SetTrigger("DashEnd");
+	}
+
+	public void Step()
+	{
+		this.PlaySound(this.Footsteps, 0.3f);
+	}
+
+	private void PlaySound(AudioClip[] clips, float volume = 1f)
+	{
+		if (clips == null || clips.Length <= 0)
+		{
+			return;
+		}
+
+		this.AudioSource.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
 	}
 }
