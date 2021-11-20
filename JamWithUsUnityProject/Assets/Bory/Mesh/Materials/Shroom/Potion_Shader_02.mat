@@ -37,7 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _FresnelPower: 3.62
+    - _FresnelPower: 1
     - _FresnelScale: -1.92
     - _IsFresnelActive: 1
     m_Colors:

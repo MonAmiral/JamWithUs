@@ -37,11 +37,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _FresnelPower: 8
-    - _FresnelScale: 9.31
+    - _FresnelPower: 1
+    - _FresnelScale: 0.5
     - _IsFresnelActive: 1
     m_Colors:
-    - _Color0: {r: 0, g: 0.24399878, b: 0.8962263, a: 0}
+    - _Color0: {r: 0, g: 1.9360065, b: 2, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Maincolor: {r: 1, g: 1, b: 1, a: 0}
+    - _Maincolor: {r: 1, g: 0.8145778, b: 0, a: 0}
   m_BuildTextureStacks: []
