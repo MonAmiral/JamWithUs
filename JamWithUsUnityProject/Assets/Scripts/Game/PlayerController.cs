@@ -168,6 +168,15 @@ public class PlayerController : MonoBehaviour
 		if (hit.collider)
 		{
 			goalPosition = hit.point;
+
+			if (this.verticalSpeed <= 0f && hit.collider.tag == "Destructible")
+			{
+				DestructiblePlatform platform = hit.collider.GetComponent<DestructiblePlatform>();
+				if (platform)
+				{
+					platform.Destroy();
+				}
+			}
 		}
 		else
 		{
