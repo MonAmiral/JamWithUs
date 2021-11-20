@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
 	public AnimationCurve Gravity;
 	[Tooltip("Les layers de colliders qui seront considérés comme du sol.")]
 	public LayerMask FloorLayer;
+	[Tooltip("Si le joueur descend plus bas que cette altitude, c'est game over.\nCe n'est pas censé arriver, c'est pour si jamais y'a un bug et qu'une plateforme est traversée.")]
+	public float KillAltitude = -10;
 
 	private new Rigidbody2D rigidbody;
 
@@ -92,6 +94,11 @@ public class PlayerController : MonoBehaviour
 		this.UpdateInput();
 		this.UpdateCorruption();
 		this.UpdateAnimator();
+
+		if (this.transform.position.y < this.KillAltitude)
+		{
+			this.GameOver();
+		}
 	}
 
 	private void UpdateInput()
@@ -334,6 +341,10 @@ public class PlayerController : MonoBehaviour
 	private void GameOver()
 	{
 		this.gameIsOver = true;
+
+		this.GameUI.CorruptionBar.fillAmount = 1f;
+		this.GameUI.CorruptionAnimator.SetFloat("CorruptionRatio", 1f);
+		this.Animator.SetFloat("CorruptionRatio", 1f);
 		this.Animator.SetTrigger("CorruptionComplete");
 
 		this.GameUI.enabled = false;
@@ -345,6 +356,11 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
+		if (this.gameIsOver)
+		{
+			return;
+		}
+
 		if (collision.tag == "Potion")
 		{
 			Potion potion = collision.GetComponentInParent<Potion>();
@@ -379,6 +395,11 @@ public class PlayerController : MonoBehaviour
 
 			potion.Collect();
 		}
+
+		if (collision.tag == "Danger")
+		{
+			this.GameOver();
+		}
 	}
 
 	public void Step()
@@ -394,5 +415,10 @@ public class PlayerController : MonoBehaviour
 		}
 
 		this.AudioSource.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
+	}
+
+	private void OnDrawGizmos()
+	{
+		Debug.DrawRay(Vector3.up * this.KillAltitude + Vector3.left * 100, Vector3.right * 200, Color.red);
 	}
 }

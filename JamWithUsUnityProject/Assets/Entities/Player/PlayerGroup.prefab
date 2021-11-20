@@ -7001,6 +7001,10 @@ PrefabInstance:
       propertyPath: GameUI
       value: 
       objectReference: {fileID: 7379978881305663591}
+    - target: {fileID: 6496441464656956240, guid: 839076e1b39d3f04db9fe5d5d015c3c2, type: 3}
+      propertyPath: KillAltitude
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 6496441464656956241, guid: 839076e1b39d3f04db9fe5d5d015c3c2, type: 3}
       propertyPath: m_RootOrder
       value: 2
