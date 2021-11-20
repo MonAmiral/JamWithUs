@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Mushroom_02_B
+  m_Name: M_Wall_01
   m_Shader: {fileID: 4800000, guid: 335875550a2fcaf468865c2608097b4e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Platform_Rock_3x3x05_DefaultMaterial_BaseColor:
-        m_Texture: {fileID: 2800000, guid: b3e90dc6c1a80c3488a3f57a3b7892c3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1df559d80e201c845afdaa41c39e4726, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
