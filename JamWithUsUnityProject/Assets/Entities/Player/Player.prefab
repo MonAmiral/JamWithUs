@@ -209,7 +209,8 @@ MonoBehaviour:
   CorruptionPerSecond: 1
   PotionDangerPrefab: {fileID: 3148511814857973877, guid: 8ce2145e6c7c39342af252c5a0403556, type: 3}
   DangerStartDelay: 1
-  DangerLoopDelay: 3
+  DangerLoopDelay: 0.2
+  FartPrefab: {fileID: 5348181568596791478, guid: 90c7fc4ec770a3a45972e1ef49e07550, type: 3}
   Model: {fileID: 2260045985280525607}
   Animator: {fileID: 6496441465800502981}
   AudioSource: {fileID: 3281399485387619076}
@@ -231,6 +232,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7f195db45da29464a946db3e029ebff1, type: 3}
   - {fileID: 8300000, guid: 01c281fb663b34f42a4a9492adefbdfd, type: 3}
   - {fileID: 8300000, guid: 1ebf621f6e25a1643976bad351e0e809, type: 3}
+  Fart:
+  - {fileID: 8300000, guid: 2e9e0a2d0e0b82546b433346110875ba, type: 3}
   Potion:
   - {fileID: 8300000, guid: 64abd7d991bbaa54280ee564cbd474b9, type: 3}
 --- !u!60 &6496441464656956242

@@ -12,6 +12,7 @@ public class Potion : MonoBehaviour
 	public bool CantStopMoving;
 	public bool ReduceVision;
 	public bool SpawnFollowingDanger;
+	public float FartScale;
 	public bool Antidote;
 
 	public void Collect()

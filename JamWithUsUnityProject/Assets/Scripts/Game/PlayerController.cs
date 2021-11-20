@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
 	public GameObject PotionDangerPrefab;
 	public float DangerStartDelay;
 	public float DangerLoopDelay;
+	public GameObject FartPrefab;
 
 	[Header("References")]
 	public Transform Model;
@@ -77,12 +78,14 @@ public class PlayerController : MonoBehaviour
 	public AudioClip[] Footsteps;
 	public AudioClip[] JumpStart;
 	public AudioClip[] Dash;
+	public AudioClip[] Fart;
 	public AudioClip[] Potion;
 
 	private bool controlsInverted;
 	private float desiredDrunkLevel;
 	private float currentDrunkLevel;
 	private bool cannotStopMoving;
+	private float fartScale;
 
 	private void Start()
 	{
@@ -233,6 +236,11 @@ public class PlayerController : MonoBehaviour
 		this.horizontalSpeedRatio = this.facing * this.DashHorizontalSpeed.Evaluate(this.dashTime);
 		this.dashTime += deltaTime;
 
+		if (this.fartScale != 0f)
+		{
+			this.horizontalSpeedRatio *= this.fartScale;
+		}
+
 		this.rigidbody.MovePosition(position + Vector2.right * this.horizontalSpeedRatio * this.MovementSpeed * deltaTime);
 
 		if (this.dashTime > this.dashDuration)
@@ -249,6 +257,18 @@ public class PlayerController : MonoBehaviour
 		{
 			acceleration *= this.JumpAirControl.Evaluate(this.airTime);
 			this.verticalSpeed = this.JumpVerticalSpeed.Evaluate(this.airTime);
+
+			if (this.fartScale != 0f)
+			{
+				if (this.verticalSpeed < 0f)
+				{
+					this.fartScale = 0f;
+				}
+				else
+				{
+					this.verticalSpeed *= this.fartScale;
+				}
+			}
 		}
 		else
 		{
@@ -326,7 +346,19 @@ public class PlayerController : MonoBehaviour
 		this.airTime = 0f;
 
 		this.Animator.SetBool("IsJumping", true);
-		this.PlaySound(this.JumpStart);
+
+		if (this.fartScale != 0f)
+		{
+			this.Animator.SetBool("EffectFartReady", false);
+			this.PlaySound(this.Fart);
+
+			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, Quaternion.identity);
+			GameObject.Destroy(fartInstance, 1f);
+		}
+		else
+		{
+			this.PlaySound(this.JumpStart);
+		}
 	}
 
 	private void EndJump()
@@ -354,7 +386,19 @@ public class PlayerController : MonoBehaviour
 
 		this.dashTime = float.Epsilon;
 		this.Animator.SetTrigger("DashStart");
-		this.PlaySound(this.Dash);
+
+		if (this.fartScale != 0f)
+		{
+			this.Animator.SetBool("EffectFartReady", false);
+			this.PlaySound(this.Fart);
+
+			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, Quaternion.identity);
+			GameObject.Destroy(fartInstance, 1f);
+		}
+		else
+		{
+			this.PlaySound(this.Dash);
+		}
 	}
 
 	private void EndDash()
@@ -362,6 +406,7 @@ public class PlayerController : MonoBehaviour
 		this.dashTime = -this.DashCooldown;
 		this.hasLandedAfterDash = false;
 		this.airTime = 0;
+		this.fartScale = 0f;
 
 		this.Animator.SetTrigger("DashEnd");
 	}
@@ -448,7 +493,16 @@ public class PlayerController : MonoBehaviour
 
 			this.CameraAnimator.SetBool("EffectVisionReduced", false);
 
+			this.fartScale = 0f;
+			this.Animator.SetBool("EffectFartReady", false);
+
 			this.CancelInvoke(nameof(SpawnFollowingDanger));
+		}
+
+		if (potion.FartScale != 0f)
+		{
+			this.fartScale = potion.FartScale;
+			this.Animator.SetBool("EffectFartReady", true);
 		}
 
 		this.currentCorruption = Mathf.Clamp(this.currentCorruption + potion.Corruption, 0f, this.MaximumCorruption);

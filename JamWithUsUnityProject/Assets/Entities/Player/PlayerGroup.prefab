@@ -6426,7 +6426,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: -10
     y: 1
-    width: 15
+    width: 18
     height: 8
   Target: {fileID: 7379978882788546359}
   Offset: {x: 0, y: 1, z: -8}
