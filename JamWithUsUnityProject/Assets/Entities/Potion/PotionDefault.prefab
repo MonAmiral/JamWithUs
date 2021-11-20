@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2606983746015192879}
   - component: {fileID: 2606983746015192878}
   m_Layer: 6
-  m_Name: Potion
+  m_Name: PotionDefault
   m_TagString: Potion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,10 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Corruption: -5
   InvertControls: 0
-  DrunkControls: 0
-  Adrenaline: 0
+  DrunkPercentage: 0
+  CantStopMoving: 0
   ReduceVision: 0
-  Shadow: 0
+  SpawnFollowingDanger: 0
+  FartScale: 0
   Antidote: 0
 --- !u!58 &2606983746015192878
 CircleCollider2D:
@@ -134,7 +135,7 @@ PrefabInstance:
     - target: {fileID: -4607688616582456304, guid: 0c123969785646e44ae5d0a270e7c656, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: cf2300599d60d054faf3f38960bc3703, type: 2}
+      objectReference: {fileID: 2100000, guid: df2d070aca083794589618e9b4f24160, type: 2}
     - target: {fileID: 919132149155446097, guid: 0c123969785646e44ae5d0a270e7c656, type: 3}
       propertyPath: m_Name
       value: Model
