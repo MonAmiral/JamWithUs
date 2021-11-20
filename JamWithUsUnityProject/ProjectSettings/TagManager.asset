@@ -10,6 +10,7 @@ TagManager:
   - Trigger
   - Ingredient
   - Cauldron
+  - DashDestructible
   layers:
   - Default
   - TransparentFX

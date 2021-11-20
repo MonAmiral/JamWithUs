@@ -77,12 +77,19 @@ public class PlayerController : MonoBehaviour
 	[Header("Victoire")]
 	public int RequiredTriggers;
 	public bool TriggersRequireDash;
+
+	[Space]
 	public bool WinWhenCorruptionReachesZero;
+
+	[Space]
 	public int RequiredIngredients;
 	public Transform IngredientAnchor;
 	public AnimationCurve IngredientVerticalCurve;
 	public AnimationCurve IngredientHorizontalCurve;
 	private Transform activeIngredient;
+
+	[Space]
+	public List<Collider2D> RequiredDestructions;
 
 	[Header("Audio")]
 	public AudioClip[] Footsteps;
@@ -522,6 +529,24 @@ public class PlayerController : MonoBehaviour
 				collision.GetComponent<Animator>().Play("Interact");
 
 				if (this.RequiredTriggers == 0)
+				{
+					this.Victory();
+				}
+			}
+		}
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (this.dashTime > 0f && collision.collider.tag == "DashDestructible")
+		{
+			collision.collider.enabled = false;
+			collision.collider.GetComponent<Animator>().Play("Destroy");
+
+			if (this.RequiredDestructions.Contains(collision.collider))
+			{
+				this.RequiredDestructions.Remove(collision.collider);
+				if (this.RequiredDestructions.Count == 0)
 				{
 					this.Victory();
 				}
