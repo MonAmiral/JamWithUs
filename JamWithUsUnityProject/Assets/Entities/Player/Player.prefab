@@ -207,7 +207,7 @@ MonoBehaviour:
   DashCooldown: 0.5
   StartingCorruption: 0
   MaximumCorruption: 20
-  CorruptionPerSecond: 1
+  CorruptionPerSecond: 0.8
   PotionDangerPrefab: {fileID: 3148511814857973877, guid: 8ce2145e6c7c39342af252c5a0403556, type: 3}
   DangerStartDelay: 1
   DangerLoopDelay: 0.8
