@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
 	[Header("References")]
 	public Transform Model;
+	public Animator Animator;
 
 	private void Start()
 	{
@@ -91,6 +92,10 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 		}
+
+		this.Animator.SetFloat("SpeedRatio", Mathf.Abs(this.horizontalSpeedRatio));
+		this.Animator.SetBool("IsFalling", this.verticalSpeed < 0f);
+		this.Animator.SetBool("IsOnGround", this.airTime == 0f);
 	}
 
 	private void FixedUpdate()
@@ -114,15 +119,12 @@ public class PlayerController : MonoBehaviour
 	{
 		this.horizontalSpeedRatio = this.facing * this.DashHorizontalSpeed.Evaluate(this.dashTime);
 		this.dashTime += deltaTime;
+		this.rigidbody.MovePosition(position + Vector2.right * this.horizontalSpeedRatio * this.MovementSpeed * deltaTime);
 
 		if (this.dashTime > this.dashDuration)
 		{
-			this.dashTime = -this.DashCooldown;
-			this.hasLandedAfterDash = false;
-			this.airTime = 0;
+			this.EndDash();
 		}
-
-		this.rigidbody.MovePosition(position + Vector2.right * this.horizontalSpeedRatio * this.MovementSpeed * deltaTime);
 	}
 
 	private void UpdateNormalVelocityAndMove(Vector2 position, float deltaTime)
@@ -174,8 +176,12 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			this.airTime = 0;
-			this.isJumping = false;
 			this.hasLandedAfterDash = true;
+
+			if (this.isJumping)
+			{
+				this.EndJump();
+			}
 		}
 
 		// Move.
@@ -195,6 +201,15 @@ public class PlayerController : MonoBehaviour
 	{
 		this.isJumping = true;
 		this.airTime = 0f;
+
+		this.Animator.SetBool("IsJumping", true);
+	}
+
+	private void EndJump()
+	{
+		this.isJumping = false;
+
+		this.Animator.SetBool("IsJumping", false);
 	}
 
 	private void StartDash()
@@ -204,7 +219,21 @@ public class PlayerController : MonoBehaviour
 			this.facing = (int)Mathf.Sign(this.horizontalInput);
 		}
 
+		if (this.isJumping)
+		{
+			this.EndJump();
+		}
+
 		this.dashTime = float.Epsilon;
-		this.isJumping = false;
+		this.Animator.SetTrigger("DashStart");
+	}
+
+	private void EndDash()
+	{
+		this.dashTime = -this.DashCooldown;
+		this.hasLandedAfterDash = false;
+		this.airTime = 0;
+
+		this.Animator.SetTrigger("DashEnd");
 	}
 }
