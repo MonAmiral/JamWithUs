@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Platform_Rock_3x3x05_DefaultMaterial_BaseColor:
-        m_Texture: {fileID: 2800000, guid: bf621cc98f3ef7348bf00da9f08fda50, type: 3}
+        m_Texture: {fileID: 2800000, guid: 129e03ecf6c25e84f8d8e084b3227671, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
