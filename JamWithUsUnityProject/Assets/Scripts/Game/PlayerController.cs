@@ -61,17 +61,28 @@ public class PlayerController : MonoBehaviour
 	public float CorruptionPerSecond;
 	private float currentCorruption;
 
+	[Header("Potion effects")]
+	public GameObject PotionDangerPrefab;
+	public float DangerStartDelay;
+	public float DangerLoopDelay;
+
 	[Header("References")]
 	public Transform Model;
 	public Animator Animator;
 	public AudioSource AudioSource;
 	public GameUI GameUI;
+	public Animator CameraAnimator;
 
 	[Header("Audio")]
 	public AudioClip[] Footsteps;
 	public AudioClip[] JumpStart;
 	public AudioClip[] Dash;
 	public AudioClip[] Potion;
+
+	private bool controlsInverted;
+	private float desiredDrunkLevel;
+	private float currentDrunkLevel;
+	private bool cannotStopMoving;
 
 	private void Start()
 	{
@@ -104,6 +115,23 @@ public class PlayerController : MonoBehaviour
 	private void UpdateInput()
 	{
 		this.horizontalInput = Input.GetAxis("Horizontal");
+		if (this.controlsInverted)
+		{
+			this.horizontalInput *= -1;
+		}
+
+		if (this.cannotStopMoving)
+		{
+			if (this.horizontalInput == 0f)
+			{
+				this.horizontalInput = this.facing;
+			}
+			else
+			{
+				this.horizontalInput = Mathf.Sign(this.horizontalInput);
+			}
+		}
+
 		this.Model.localRotation = Quaternion.Lerp(this.Model.localRotation, Quaternion.Euler(Vector3.up * 90 * this.facing), Time.deltaTime * this.RotationSpeed);
 
 		this.gameHasStarted |= this.horizontalInput != 0f;
@@ -113,7 +141,7 @@ public class PlayerController : MonoBehaviour
 			// Handle Jump when in coyote time.
 			if (this.hasLandedAfterDash && !this.isJumping && this.airTime < this.CoyoteTime)
 			{
-				if (Input.GetButtonDown("Jump"))
+				if (Input.GetButtonDown("Jump") && !this.controlsInverted || Input.GetButtonDown("Dash") && this.controlsInverted)
 				{
 					this.gameHasStarted = true;
 					this.StartJump();
@@ -125,7 +153,7 @@ public class PlayerController : MonoBehaviour
 			{
 				if (this.dashTime == 0f)
 				{
-					if (Input.GetButtonDown("Dash"))
+					if (Input.GetButtonDown("Dash") && !this.controlsInverted || Input.GetButtonDown("Jump") && this.controlsInverted)
 					{
 						this.gameHasStarted = true;
 						this.StartDash();
@@ -352,6 +380,8 @@ public class PlayerController : MonoBehaviour
 		this.GameUI.GameOverScreen.SetActive(true);
 
 		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.RestartButton);
+
+		this.CancelInvoke(nameof(SpawnFollowingDanger));
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -364,35 +394,8 @@ public class PlayerController : MonoBehaviour
 		if (collision.tag == "Potion")
 		{
 			Potion potion = collision.GetComponentInParent<Potion>();
-			this.currentCorruption = Mathf.Clamp(this.currentCorruption + potion.Corruption, 0f, this.MaximumCorruption);
 
-			this.PlaySound(this.Potion);
-
-			if (potion.InvertControls)
-			{
-
-			}
-
-			if (potion.DrunkEffect)
-			{
-
-			}
-
-			if (potion.Adrenaline)
-			{
-
-			}
-
-			if (potion.ReduceVision)
-			{
-
-			}
-
-			if (potion.Shadow)
-			{
-
-			}
-
+			this.ApplyPotionEffects(potion);
 			potion.Collect();
 		}
 
@@ -400,6 +403,61 @@ public class PlayerController : MonoBehaviour
 		{
 			this.GameOver();
 		}
+	}
+
+	private void ApplyPotionEffects(Potion potion)
+	{
+		if (potion.InvertControls)
+		{
+			this.controlsInverted = true;
+			this.Animator.SetBool("EffectControlsInverted", this.controlsInverted);
+		}
+
+		if (potion.DrunkPercentage != 0f)
+		{
+			this.desiredDrunkLevel += potion.DrunkPercentage;
+			this.CameraAnimator.SetFloat("EffectDrunkLevel", this.desiredDrunkLevel);
+		}
+
+		if (potion.CantStopMoving)
+		{
+			this.cannotStopMoving = true;
+			this.Animator.SetBool("EffectCantStopMoving", this.cannotStopMoving);
+		}
+
+		if (potion.ReduceVision)
+		{
+			this.CameraAnimator.SetBool("EffectVisionReduced", true);
+		}
+
+		if (potion.SpawnFollowingDanger)
+		{
+			this.InvokeRepeating(nameof(SpawnFollowingDanger), this.DangerStartDelay, this.DangerLoopDelay);
+		}
+
+		if (potion.Antidote)
+		{
+			this.controlsInverted = false;
+			this.Animator.SetBool("EffectControlsInverted", this.controlsInverted);
+
+			this.desiredDrunkLevel = 0f;
+			this.CameraAnimator.SetFloat("EffectDrunkLevel", this.desiredDrunkLevel);
+
+			this.cannotStopMoving = false;
+			this.Animator.SetBool("EffectCantStopMoving", this.cannotStopMoving);
+
+			this.CameraAnimator.SetBool("EffectVisionReduced", false);
+
+			this.CancelInvoke(nameof(SpawnFollowingDanger));
+		}
+
+		this.currentCorruption = Mathf.Clamp(this.currentCorruption + potion.Corruption, 0f, this.MaximumCorruption);
+		this.PlaySound(this.Potion);
+	}
+
+	private void SpawnFollowingDanger()
+	{
+		GameObject danger = GameObject.Instantiate(this.PotionDangerPrefab, this.transform.position, Quaternion.identity);
 	}
 
 	public void Step()

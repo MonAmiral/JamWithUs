@@ -8,10 +8,10 @@ public class Potion : MonoBehaviour
 
 	[Space]
 	public bool InvertControls;
-	public bool DrunkEffect;
-	public bool Adrenaline;
+	public float DrunkPercentage;
+	public bool CantStopMoving;
 	public bool ReduceVision;
-	public bool Shadow;
+	public bool SpawnFollowingDanger;
 	public bool Antidote;
 
 	public void Collect()
