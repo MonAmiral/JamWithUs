@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
       propertyPath: FartScale
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7215873236034250568, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
       propertyPath: m_Materials.Array.data[0]

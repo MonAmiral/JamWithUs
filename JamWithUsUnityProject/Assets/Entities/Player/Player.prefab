@@ -205,18 +205,19 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   DashCooldown: 0.5
-  MaximumCorruption: 20
   StartingCorruption: 0
+  MaximumCorruption: 20
   CorruptionPerSecond: 1
   PotionDangerPrefab: {fileID: 3148511814857973877, guid: 8ce2145e6c7c39342af252c5a0403556, type: 3}
   DangerStartDelay: 1
-  DangerLoopDelay: 0.2
+  DangerLoopDelay: 0.8
   FartPrefab: {fileID: 5348181568596791478, guid: 90c7fc4ec770a3a45972e1ef49e07550, type: 3}
   Model: {fileID: 2260045985280525607}
   Animator: {fileID: 6496441465800502981}
   AudioSource: {fileID: 3281399485387619076}
   GameUI: {fileID: 0}
   CameraAnimator: {fileID: 0}
+  LevelIndex: 0
   RequiredTriggers: 2
   TriggersRequireDash: 0
   WinWhenCorruptionReachesZero: 0
@@ -279,6 +280,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  RequiredDestructions: []
   Footsteps:
   - {fileID: 8300000, guid: 76dd1de1ca1ae61438d8cd63d68d46da, type: 3}
   - {fileID: 8300000, guid: e5c4c763ccef82641822548b40541203, type: 3}

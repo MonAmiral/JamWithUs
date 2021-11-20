@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d57d4c26c649247a781d79ce072c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Corruption: -5
+  Corruption: -8
   InvertControls: 0
   DrunkPercentage: 0
   CantStopMoving: 0
