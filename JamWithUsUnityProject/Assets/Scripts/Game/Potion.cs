@@ -15,6 +15,11 @@ public class Potion : MonoBehaviour
 	public float FartScale;
 	public bool Antidote;
 
+	private void Start()
+	{
+		this.GetComponentInChildren<Animator>().Play("Rotate", 1, Random.Range(0f, 1f));
+	}
+
 	public void Collect()
 	{
 		this.GetComponentInChildren<Animator>().Play("Collect");

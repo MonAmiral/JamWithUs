@@ -16,10 +16,14 @@ public class GameUI : MonoBehaviour
 	public SettingsMenu SettingsMenu;
 	public GameObject ResumeButton;
 
+	[Header("Victoire")]
+	public GameObject VictoryScreen;
+	public GameObject NextLevelButton;
+
 	[Header("Game over")]
 	public GameObject GameOverScreen;
 	public GameObject RestartButton;
-	
+
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7))

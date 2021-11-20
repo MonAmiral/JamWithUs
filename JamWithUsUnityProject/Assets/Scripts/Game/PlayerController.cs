@@ -61,18 +61,28 @@ public class PlayerController : MonoBehaviour
 	public float CorruptionPerSecond;
 	private float currentCorruption;
 
-	[Header("Potion effects")]
+	[Header("Effets de potions")]
 	public GameObject PotionDangerPrefab;
 	public float DangerStartDelay;
 	public float DangerLoopDelay;
 	public GameObject FartPrefab;
 
-	[Header("References")]
+	[Header("Références")]
 	public Transform Model;
 	public Animator Animator;
 	public AudioSource AudioSource;
 	public GameUI GameUI;
 	public Animator CameraAnimator;
+
+	[Header("Victoire")]
+	public int RequiredTriggers;
+	public bool TriggersRequireDash;
+	public bool WinWhenCorruptionReachesZero;
+	public int RequiredIngredients;
+	public Transform IngredientAnchor;
+	public AnimationCurve IngredientVerticalCurve;
+	public AnimationCurve IngredientHorizontalCurve;
+	private Transform activeIngredient;
 
 	[Header("Audio")]
 	public AudioClip[] Footsteps;
@@ -182,7 +192,7 @@ public class PlayerController : MonoBehaviour
 		this.Animator.SetFloat("CorruptionRatio", this.currentCorruption / this.MaximumCorruption);
 
 		int percentage = (int)((this.currentCorruption / this.MaximumCorruption) * 100f);
-		if (percentage > 8)
+		if (percentage >= 10)
 		{
 			this.GameUI.CorruptionLabel.text = $"{percentage}%";
 		}
@@ -411,6 +421,19 @@ public class PlayerController : MonoBehaviour
 		this.Animator.SetTrigger("DashEnd");
 	}
 
+	public void Victory()
+	{
+		this.gameIsOver = true;
+		
+		this.GameUI.enabled = false;
+		this.GameUI.GameInterface.SetActive(false);
+
+		this.GameUI.VictoryScreen.SetActive(true);
+		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.NextLevelButton);
+
+		this.CancelInvoke(nameof(SpawnFollowingDanger));
+	}
+
 	private void GameOver()
 	{
 		this.gameIsOver = true;
@@ -422,8 +445,8 @@ public class PlayerController : MonoBehaviour
 
 		this.GameUI.enabled = false;
 		this.GameUI.GameInterface.SetActive(false);
-		this.GameUI.GameOverScreen.SetActive(true);
 
+		this.GameUI.GameOverScreen.SetActive(true);
 		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.RestartButton);
 
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
@@ -447,6 +470,81 @@ public class PlayerController : MonoBehaviour
 		if (collision.tag == "Danger")
 		{
 			this.GameOver();
+		}
+
+		if (collision.tag == "Finish")
+		{
+			this.Victory();
+		}
+
+		if (collision.tag == "Ingredient")
+		{
+			if (this.activeIngredient == null)
+			{
+				collision.enabled = false;
+				this.activeIngredient = collision.transform;
+				this.activeIngredient.parent = this.IngredientAnchor;
+				this.StartCoroutine(this.MoveIngredient(collision.transform, this.lastVelocity));
+			}
+		}
+
+		if (collision.tag == "Cauldron")
+		{
+			if (this.activeIngredient != null)
+			{
+				this.activeIngredient.parent = collision.transform;
+				this.StartCoroutine(this.MoveIngredient(this.activeIngredient, this.lastVelocity));
+				this.activeIngredient = null;
+				this.RequiredIngredients--;
+
+				if (this.RequiredIngredients == 0)
+				{
+					this.Victory();
+				}
+			}
+		}
+	}
+
+	private void OnTriggerStay2D(Collider2D collision)
+	{
+		if (this.gameIsOver)
+		{
+			return;
+		}
+
+		if (collision.tag == "Trigger")
+		{
+			if (this.dashTime > 0f || !this.TriggersRequireDash)
+			{
+				collision.enabled = false;
+				this.RequiredTriggers--;
+
+				collision.GetComponent<Animator>().Play("Interact");
+
+				if (this.RequiredTriggers == 0)
+				{
+					this.Victory();
+				}
+			}
+		}
+	}
+
+	private IEnumerator MoveIngredient(Transform ingredient, Vector3 initialVelocity)
+	{
+		Vector3 initialPosition = ingredient.localPosition;
+
+		float elapsedTime = 0f;
+		while (elapsedTime < 0.5f)
+		{
+			yield return null;
+
+			elapsedTime += Time.deltaTime;
+			float ratio = elapsedTime / 0.5f;
+
+			Vector3 interpolatedPosition = initialPosition * (1 - this.IngredientHorizontalCurve.Evaluate(ratio));
+			Vector3 verticalOffset = Vector3.up * this.IngredientVerticalCurve.Evaluate(ratio);
+
+			ingredient.localPosition = interpolatedPosition + verticalOffset;
 		}
 	}
 
@@ -507,6 +605,11 @@ public class PlayerController : MonoBehaviour
 
 		this.currentCorruption = Mathf.Clamp(this.currentCorruption + potion.Corruption, 0f, this.MaximumCorruption);
 		this.PlaySound(this.Potion);
+
+		if (this.WinWhenCorruptionReachesZero && this.currentCorruption == 0f)
+		{
+			this.Victory();
+		}
 	}
 
 	private void SpawnFollowingDanger()
