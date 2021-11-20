@@ -30,6 +30,75 @@ public class PlayerController : MonoBehaviour
 	[Tooltip("Si le joueur descend plus bas que cette altitude, c'est game over.\nCe n'est pas censé arriver, c'est pour si jamais y'a un bug et qu'une plateforme est traversée.")]
 	public float KillAltitude = -10;
 
+	[Header("Dash")]
+	[Tooltip("La vitesse horizontale lors d'un dash.\n-X = temps en secondes, Y = multiplicateur de la vitesse de déplacement.\nLe dash se termine lorsque le temps dépasse la position du dernier point de la courbe.")]
+	public AnimationCurve DashHorizontalSpeed;
+	private float dashDuration;
+	[Tooltip("Le temps d'attente en secondes entre le contact avec le sol après un dash et le moment où le joueur peut de nouveau dash.")]
+	public float DashCooldown;
+
+	[Header("Corruption")]
+	[Tooltip("La valeur de corruption de départ.")]
+	public float StartingCorruption;
+	[Tooltip("Lorsque la corruption atteint cette valeur, la partie est perdue.")]
+	public float MaximumCorruption;
+	[Tooltip("La corruption est augmentée de cette valeur par seconde.")]
+	public float CorruptionPerSecond;
+	private float currentCorruption;
+
+	[Header("Effets de potions")]
+	[Tooltip("Le prefab spawné régulièrement quand une potion 'Danger' a été bue.")]
+	public GameObject PotionDangerPrefab;
+	[Tooltip("Le délai entre le moment où le joueur boit la potion 'Danger' et l'apparition du premier Danger.")]
+	public float DangerStartDelay;
+	[Tooltip("Le délai entre deux apparitions de dangers.")]
+	public float DangerLoopDelay;
+	[Tooltip("Le prefab spawné lorsqu'un saut ou dash amélioré est exécuté.")]
+	public GameObject FartPrefab;
+
+	[Header("Références")]
+	public Transform Model;
+	public Animator Animator;
+	public AudioSource AudioSource;
+	public GameUI GameUI;
+	public Animator CameraAnimator;
+
+	[Header("Victoire")]
+	[Tooltip("Le numéro du niveau. Commence à 0, et est utilisé par les high scores et tout.")]
+	public int LevelIndex;
+
+	[Space]
+	[Tooltip("Le nombre d'objets avec le tag 'Trigger' qui doivent être activés pour gagner.")]
+	public int RequiredTriggers;
+	[Tooltip("Cocher cette case pour faire que les objets 'Trigger' ne sont activés que lorsque le joueur dash dedans.")]
+	public bool TriggersRequireDash;
+
+	[Space]
+	[Tooltip("Cocher cette case pour faire que la partie est gagnée quand la corruption atteint 0.")]
+	public bool WinWhenCorruptionReachesZero;
+
+	[Space]
+	[Tooltip("Le nombre d'ingrédients qui doivent être amenés à un chaudron pour gagner la partie.")]
+	public int RequiredIngredients;
+	[Tooltip("La position où les ingrédients sont placés quand ils sont transportés par le joueur.")]
+	public Transform IngredientAnchor;
+	[Tooltip("La courbe de mouvement vertical de l'ingrédient quand il est déplacé vers le joueur ou le chaudron.")]
+	public AnimationCurve IngredientVerticalCurve;
+	[Tooltip("La courbe de mouvement horizontal de l'ingrédient quand il est déplacé vers le joueur ou le chaudron.")]
+	public AnimationCurve IngredientHorizontalCurve;
+	private Transform activeIngredient;
+
+	[Space]
+	[Tooltip("La liste des murs destructibles qui, lorsqu'ils sont tous détruits, font gagner la partie.")]
+	public List<Collider2D> RequiredDestructions;
+
+	[Header("Audio")]
+	public AudioClip[] Footsteps;
+	public AudioClip[] JumpStart;
+	public AudioClip[] Dash;
+	public AudioClip[] Fart;
+	public AudioClip[] Potion;
+
 	private new Rigidbody2D rigidbody;
 
 	private float horizontalInput;
@@ -47,56 +116,6 @@ public class PlayerController : MonoBehaviour
 
 	private bool gameHasStarted;
 	private bool gameIsOver;
-
-	[Header("Dash")]
-	[Tooltip("La vitesse horizontale lors d'un dash.\n-X = temps en secondes, Y = multiplicateur de la vitesse de déplacement.\nLe dash se termine lorsque le temps dépasse la position du dernier point de la courbe.")]
-	public AnimationCurve DashHorizontalSpeed;
-	private float dashDuration;
-	[Tooltip("Le temps d'attente en secondes entre le contact avec le sol après un dash et le moment où le joueur peut de nouveau dash.")]
-	public float DashCooldown;
-
-	[Header("Corruption")]
-	public float MaximumCorruption;
-	public float StartingCorruption;
-	public float CorruptionPerSecond;
-	private float currentCorruption;
-
-	[Header("Effets de potions")]
-	public GameObject PotionDangerPrefab;
-	public float DangerStartDelay;
-	public float DangerLoopDelay;
-	public GameObject FartPrefab;
-
-	[Header("Références")]
-	public Transform Model;
-	public Animator Animator;
-	public AudioSource AudioSource;
-	public GameUI GameUI;
-	public Animator CameraAnimator;
-
-	[Header("Victoire")]
-	public int RequiredTriggers;
-	public bool TriggersRequireDash;
-
-	[Space]
-	public bool WinWhenCorruptionReachesZero;
-
-	[Space]
-	public int RequiredIngredients;
-	public Transform IngredientAnchor;
-	public AnimationCurve IngredientVerticalCurve;
-	public AnimationCurve IngredientHorizontalCurve;
-	private Transform activeIngredient;
-
-	[Space]
-	public List<Collider2D> RequiredDestructions;
-
-	[Header("Audio")]
-	public AudioClip[] Footsteps;
-	public AudioClip[] JumpStart;
-	public AudioClip[] Dash;
-	public AudioClip[] Fart;
-	public AudioClip[] Potion;
 
 	private bool controlsInverted;
 	private float desiredDrunkLevel;
@@ -439,6 +458,9 @@ public class PlayerController : MonoBehaviour
 		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.NextLevelButton);
 
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
+
+		PlayerPrefs.SetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", 2);
+		PlayerPrefs.Save();
 	}
 
 	private void GameOver()
