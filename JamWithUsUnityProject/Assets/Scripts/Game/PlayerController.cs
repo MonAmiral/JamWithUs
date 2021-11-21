@@ -621,7 +621,11 @@ public class PlayerController : MonoBehaviour
 				collision.enabled = false;
 				this.RequiredTriggers--;
 
-				collision.GetComponent<Animator>().Play("Interact");
+				Animator animator = collision.GetComponent<Animator>();
+				if (animator)
+				{
+					animator.Play("Interact");
+				}
 
 				if (this.RequiredTriggers == 0)
 				{
