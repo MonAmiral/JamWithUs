@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
+		currentCorruption = StartingCorruption; 
 		this.rigidbody = this.GetComponent<Rigidbody2D>();
 		this.dashDuration = this.DashHorizontalSpeed.keys[this.DashHorizontalSpeed.keys.Length - 1].time;
 	}
