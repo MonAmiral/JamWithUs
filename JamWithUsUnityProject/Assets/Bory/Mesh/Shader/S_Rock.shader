@@ -7,7 +7,7 @@ Shader "S_Rock"
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[ASEBegin]_Platform_Rock_3x3x05_DefaultMaterial_BaseColor("Platform_Rock_3x3x05_DefaultMaterial_BaseColor", 2D) = "white" {}
-		_Color0("Color 0", Color) = (1,1,1,0)
+		[HDR]_Color0("Color 0", Color) = (1,1,1,0)
 		_Temalic("Temalic", Float) = 0
 		[ASEEnd]_Smoothness("Smoothness", Float) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
@@ -2390,9 +2390,9 @@ Shader "S_Rock"
 }
 /*ASEBEGIN
 Version=18921
--1020;1440;1920;1059;215.5721;187.3606;1;True;True
+-1920;200;1920;1059;687.5721;281.3606;1;True;True
 Node;AmplifyShaderEditor.SamplerNode;9;-31.51401,38.52415;Inherit;True;Property;_Platform_Rock_3x3x05_DefaultMaterial_BaseColor;Platform_Rock_3x3x05_DefaultMaterial_BaseColor;0;0;Create;True;0;0;0;False;0;False;-1;1df559d80e201c845afdaa41c39e4726;a1b31abcac4612d4e926fef6977db761;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;13;28.13614,-157.7144;Inherit;False;Property;_Color0;Color 0;1;0;Create;True;0;0;0;False;0;False;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;13;30.13614,-156.7144;Inherit;False;Property;_Color0;Color 0;1;1;[HDR];Create;True;0;0;0;False;0;False;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;356.1361,-0.7143555;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;11;184.0582,391.3564;Inherit;True;Property;_Smoothness;Smoothness;3;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;10;184.0582,258.3564;Inherit;False;Property;_Temalic;Temalic;2;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
@@ -2410,4 +2410,4 @@ WireConnection;2;0;12;0
 WireConnection;2;3;10;0
 WireConnection;2;4;11;0
 ASEEND*/
-//CHKSM=232D530DA7741DFFA7E3869E41D18C6DEFCB7FF7
+//CHKSM=59755327ED243B6A4E05186F1898A036DAD360CB
