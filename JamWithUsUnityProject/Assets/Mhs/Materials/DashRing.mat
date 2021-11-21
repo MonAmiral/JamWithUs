@@ -20,9 +20,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DashCircle
+  m_Name: DashRing
   m_Shader: {fileID: 4800000, guid: 40c6cdc311aef7d48b377d8e9a67b275, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ISDISSOLVECUSTOM_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -54,7 +54,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DissolveTexture:
         m_Texture: {fileID: 2800000, guid: 241a0485a74b2964ba034749a877ffe0, type: 3}
-        m_Scale: {x: 4.3, y: 3.47}
+        m_Scale: {x: 1.59, y: 3.31}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: 450a453afb700c245b4682f30a32387f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 82c9543e7bfe9d949a080f2f06c6df25, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -114,6 +114,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _IsDissolveCustom: 1
+    - _IsGradientDissolve: 0
     - _IsVgradient: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -123,12 +125,15 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpeedU: 0.48
+    - _SpeedV: 0
     - _SrcBlend: 1
     - _Surface: 0
+    - _Threshold: 0.944
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BackColor: {r: 0.6784314, g: 0.6039216, b: 0.5882353, a: 0}
+    - _BackColor: {r: 0.4339623, g: 0.38830546, b: 0.3786935, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColumnsRows: {r: 4, g: 4, b: 0, a: 0}
