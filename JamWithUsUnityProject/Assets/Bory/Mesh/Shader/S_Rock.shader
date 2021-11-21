@@ -2390,7 +2390,7 @@ Shader "S_Rock"
 }
 /*ASEBEGIN
 Version=18921
--1920;200;1920;1059;267.5411;280.7634;1;True;True
+-2052;979;1920;1059;267.5411;280.7634;1;True;True
 Node;AmplifyShaderEditor.ColorNode;13;117.1361,-99.7144;Inherit;False;Property;_Color0;Color 0;1;1;[HDR];Create;True;0;0;0;False;0;False;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;9;7.485991,68.52415;Inherit;True;Property;_Platform_Rock_3x3x05_DefaultMaterial_BaseColor;Platform_Rock_3x3x05_DefaultMaterial_BaseColor;0;0;Create;True;0;0;0;False;0;False;-1;1df559d80e201c845afdaa41c39e4726;a1b31abcac4612d4e926fef6977db761;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;353.1361,1.285645;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
@@ -2411,4 +2411,4 @@ WireConnection;2;0;12;0
 WireConnection;2;3;10;0
 WireConnection;2;4;11;0
 ASEEND*/
-//CHKSM=B3C8557307A9AB1861EB06BB047F1889002A08F0
+//CHKSM=BAD604A4B88AF4D72FED594025EFCF95C9920E9E
