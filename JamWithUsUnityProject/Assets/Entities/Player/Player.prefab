@@ -163,8 +163,8 @@ MonoBehaviour:
     m_Bits: 1
   KillAltitude: -2
   JumpPrefab: {fileID: 986725978525352900, guid: 8825488aea024284bb2ac373da4c23eb, type: 3}
-  DashPrefab: {fileID: 986725978525352900, guid: 8825488aea024284bb2ac373da4c23eb, type: 3}
-  DashReadyPrefab: {fileID: 0}
+  DashPrefab: {fileID: 1546368634679694117, guid: aed0305d40a623c4f8cb1d0807d3f88b, type: 3}
+  DashReadyPrefab: {fileID: 3430906954865068715, guid: ed4b3a7d6493a8442949e64a37ba766a, type: 3}
   DashHorizontalSpeed:
     serializedVersion: 2
     m_Curve:
@@ -543,6 +543,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: manta_rig_v008
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: cf111817371cbc04082f7ea25567374f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 14036d0ddce2aeb479908a2ff5ac4e53, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf111817371cbc04082f7ea25567374f, type: 3}
 --- !u!4 &4446729213011621408 stripped
