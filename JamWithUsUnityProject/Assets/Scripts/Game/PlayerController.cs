@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
-		currentCorruption = StartingCorruption; 
+		currentCorruption = StartingCorruption;
 		this.rigidbody = this.GetComponent<Rigidbody2D>();
 		this.dashDuration = this.DashHorizontalSpeed.keys[this.DashHorizontalSpeed.keys.Length - 1].time;
 	}
@@ -203,6 +203,13 @@ public class PlayerController : MonoBehaviour
 				else
 				{
 					this.dashTime = Mathf.Min(this.dashTime + Time.deltaTime, 0f);
+					this.GameUI.DashBar.fillAmount = 1 + this.dashTime / this.DashCooldown;
+
+					if (this.dashTime == 0f)
+					{
+						this.GameUI.DashBar.fillAmount = 1f;
+						this.GameUI.DashAnimator.SetBool("Ready", true);
+					}
 				}
 			}
 		}
@@ -281,6 +288,7 @@ public class PlayerController : MonoBehaviour
 
 		this.rigidbody.MovePosition(position + Vector2.right * this.horizontalSpeedRatio * this.MovementSpeed * deltaTime);
 
+		this.GameUI.DashBar.fillAmount = 1 - (this.dashTime / this.dashDuration);
 		if (this.dashTime > this.dashDuration)
 		{
 			this.EndDash();
@@ -389,6 +397,7 @@ public class PlayerController : MonoBehaviour
 		{
 			this.activeFartScale = this.pendingFartScale;
 			this.pendingFartScale = 0f;
+			this.GameUI.DashAnimator.SetBool("PoweredUp", false);
 
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
@@ -428,11 +437,13 @@ public class PlayerController : MonoBehaviour
 
 		this.dashTime = float.Epsilon;
 		this.Animator.SetTrigger("DashStart");
+		this.GameUI.DashAnimator.SetBool("Ready", false);
 
 		if (this.pendingFartScale != 0f)
 		{
 			this.activeFartScale = this.pendingFartScale;
 			this.pendingFartScale = 0f;
+			this.GameUI.DashAnimator.SetBool("PoweredUp", false);
 
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
@@ -460,7 +471,7 @@ public class PlayerController : MonoBehaviour
 	public void Victory()
 	{
 		this.gameIsOver = true;
-		
+
 		this.GameUI.enabled = false;
 		this.GameUI.GameInterface.SetActive(false);
 
@@ -650,6 +661,7 @@ public class PlayerController : MonoBehaviour
 
 			this.pendingFartScale = 0f;
 			this.Animator.SetBool("EffectFartReady", false);
+			this.GameUI.DashAnimator.SetBool("PoweredUp", false);
 
 			this.CancelInvoke(nameof(SpawnFollowingDanger));
 		}
@@ -658,10 +670,12 @@ public class PlayerController : MonoBehaviour
 		{
 			this.pendingFartScale = potion.FartScale;
 			this.Animator.SetBool("EffectFartReady", true);
+			this.GameUI.DashAnimator.SetBool("PoweredUp", true);
 		}
 
 		this.currentCorruption = Mathf.Clamp(this.currentCorruption + potion.Corruption, 0f, this.MaximumCorruption);
 		this.PlaySound(this.Potion);
+		this.Animator.Play("Eat", 1, 0f);
 
 		if (this.WinWhenCorruptionReachesZero && this.currentCorruption == 0f)
 		{

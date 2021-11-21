@@ -11,6 +11,8 @@ public class GameUI : MonoBehaviour
 	public Image CorruptionBar;
 	public TextMeshProUGUI CorruptionLabel;
 	public Animator CorruptionAnimator;
+	public Image DashBar;
+	public Animator DashAnimator;
 
 	[Header("Pause")]
 	public SettingsMenu SettingsMenu;
