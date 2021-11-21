@@ -98,6 +98,9 @@ public class PlayerController : MonoBehaviour
 	public AudioClip[] Dash;
 	public AudioClip[] Fart;
 	public AudioClip[] Potion;
+    public AudioSource Music;
+
+    private bool musicStarted = false;
 
 	private new Rigidbody2D rigidbody;
 
@@ -146,6 +149,7 @@ public class PlayerController : MonoBehaviour
 		this.UpdateInput();
 		this.UpdateCorruption();
 		this.UpdateAnimator();
+        this.UpdateMusic();
 
 		if (this.transform.position.y < this.KillAltitude)
 		{
@@ -248,6 +252,21 @@ public class PlayerController : MonoBehaviour
 		this.Animator.SetBool("IsFalling", this.verticalSpeed < 0f);
 		this.Animator.SetBool("IsOnGround", this.airTime == 0f && this.hasLandedAfterDash);
 	}
+
+    private void UpdateMusic()
+    {
+        if (this.Music == null)
+        {
+            return;
+        }
+
+        // Wait until the player moves to start the music.
+        if (this.gameHasStarted && !this.musicStarted)
+        {
+            this.Music.Play();
+            this.musicStarted = true;
+        }
+    }
 
 	private void FixedUpdate()
 	{
