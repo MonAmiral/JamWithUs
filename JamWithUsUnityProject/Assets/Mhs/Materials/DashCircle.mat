@@ -133,7 +133,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BackColor: {r: 0.6784314, g: 0.6039216, b: 0.5882353, a: 0}
+    - _BackColor: {r: 1.3568628, g: 1.2078432, b: 1.1764706, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColumnsRows: {r: 4, g: 4, b: 0, a: 0}
