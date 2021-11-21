@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Gordo
+  m_Name: M_Ingredient
   m_Shader: {fileID: 4800000, guid: 63f7a9a2e59c6bb45bc7e74beed5d94c, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Platform_Rock_3x3x05_DefaultMaterial_BaseColor:
-        m_Texture: {fileID: 2800000, guid: 53fb597098c3fb94782eeeda6be17bed, type: 3}
+        m_Texture: {fileID: 2800000, guid: 16cfa80645c9460458e717d83aa18e48, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -86,7 +86,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
-    - _Bias: 0.17
+    - _Bias: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -103,11 +103,11 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Power: 5
+    - _Power: 0.77
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _Scale: 2.84
+    - _Scale: 1.31
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -119,7 +119,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color0: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 0}
+    - _Color0: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0}
+    - _Color1: {r: 0.5033971, g: 0.23745109, b: 1.735849, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
