@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Wait until the player moves to start the music.
-        if (this.gameHasStarted && !this.musicStarted)
+        if (this.gameHasStarted && !this.gameIsOver && !this.musicStarted)
         {
             this.Music.Play();
             this.musicStarted = true;
@@ -554,7 +554,10 @@ public class PlayerController : MonoBehaviour
 
 		PlayerPrefs.SetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", 2);
 		PlayerPrefs.Save();
-	}
+
+        this.Music.Stop();
+        this.musicStarted = false;
+    }
 
 	private void GameOver()
 	{
@@ -572,7 +575,10 @@ public class PlayerController : MonoBehaviour
 		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.RestartButton);
 
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
-	}
+
+        this.Music.Stop();
+        this.musicStarted = false;
+    }
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
