@@ -12,8 +12,23 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 13e8083efda0899439a361b71c144c60
   - enabled: 1
-    path: Assets/Scenes/ZooProgramming.unity
-    guid: 1fcf9379fa2593d418a70fe5ae47bead
+    path: Assets/Max/Scenes/s_board_1.unity
+    guid: b1d5d4fc13737334fa0ad7037e58c680
+  - enabled: 1
+    path: Assets/Max/Scenes/s_board_2.unity
+    guid: 959309cc457712148bde866b53fef299
+  - enabled: 1
+    path: Assets/Max/Scenes/s_board_3.unity
+    guid: 3a55c28ee73b42b4994e6b0f6aa27182
+  - enabled: 1
+    path: Assets/Max/Scenes/Luco_s_board_1.unity
+    guid: 7386e494c03bc3a4094735001984af09
+  - enabled: 1
+    path: Assets/Max/Scenes/Luco_s_board_2.unity
+    guid: b7f9d5717e2503540b99e02bf300e4b7
+  - enabled: 1
+    path: Assets/Max/Scenes/Luco_s_board_3.unity
+    guid: 8d8f99725ef2d6d4092e0a2b5e11209f
   - enabled: 1
     path: Assets/Scenes/VictoryScreen.unity
     guid: 3ce6c13513740744aafb97b6520924a8
