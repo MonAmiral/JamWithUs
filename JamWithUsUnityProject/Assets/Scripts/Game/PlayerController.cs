@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviour
 	[Tooltip("Si le joueur descend plus bas que cette altitude, c'est game over.\nCe n'est pas censé arriver, c'est pour si jamais y'a un bug et qu'une plateforme est traversée.")]
 	public float KillAltitude = -10;
 
+	[Space]
+	[Tooltip("Le prefab spawné lorsqu'un saut est exécuté.")]
+	public GameObject JumpPrefab;
+	[Tooltip("Le prefab spawné lorsqu'un dash est exécuté.")]
+	public GameObject DashPrefab;
+
 	[Header("Dash")]
 	[Tooltip("La vitesse horizontale lors d'un dash.\n-X = temps en secondes, Y = multiplicateur de la vitesse de déplacement.\nLe dash se termine lorsque le temps dépasse la position du dernier point de la courbe.")]
 	public AnimationCurve DashHorizontalSpeed;
@@ -405,7 +411,10 @@ public class PlayerController : MonoBehaviour
 		}
 
 		// Move.
-		if (this.rigidbody.Cast(goalPosition - position, this.movementHits) > 0 && !this.movementHits[0].collider.isTrigger && this.movementHits[0].normal.y < 0.5f)
+		float goalDistance = Vector2.Distance(position, goalPosition);
+		if (this.rigidbody.Cast(goalPosition - position, this.movementHits, goalDistance) > 0 
+		 && !this.movementHits[0].collider.isTrigger 
+		 && this.movementHits[0].normal.y < 0.5f)
 		{
 			float distance = Vector2.Distance(hit.point, this.rigidbody.ClosestPoint(hit.point)) - 0.05f;
 			goalPosition = Vector2.MoveTowards(position, goalPosition, distance);
@@ -440,6 +449,12 @@ public class PlayerController : MonoBehaviour
 		{
 			this.activeFartScale = 0f;
 			this.PlaySound(this.JumpStart);
+
+			if (this.DashPrefab)
+			{
+				GameObject jumpInstance = GameObject.Instantiate(this.JumpPrefab, this.Model.position, Quaternion.identity);
+				GameObject.Destroy(jumpInstance, 1f);
+			}
 		}
 	}
 
@@ -486,6 +501,12 @@ public class PlayerController : MonoBehaviour
 		{
 			this.activeFartScale = 0f;
 			this.PlaySound(this.Dash);
+
+			if (this.DashPrefab)
+			{
+				GameObject dashInstance = GameObject.Instantiate(this.DashPrefab, this.Model.position, Quaternion.identity);
+				GameObject.Destroy(dashInstance, 1f);
+			}
 		}
 	}
 
