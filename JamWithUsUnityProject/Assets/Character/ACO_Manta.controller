@@ -210,7 +210,7 @@ BlendTree:
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 73869bfdfa2d880428df93c4afb245e7, type: 2}
-    m_Threshold: 0.8
+    m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -226,7 +226,7 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: CorruptionRatio
   m_BlendParameterY: SpeedRatio
-  m_MinThreshold: 0.8
+  m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
@@ -461,7 +461,7 @@ AnimatorController:
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
-    m_BlendingMode: 1
+    m_BlendingMode: 0
     m_SyncedLayerIndex: -1
     m_DefaultWeight: 1
     m_IKPass: 0
