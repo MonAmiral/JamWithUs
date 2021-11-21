@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DashCircle
+  m_Name: DashWings
   m_Shader: {fileID: 4800000, guid: 40c6cdc311aef7d48b377d8e9a67b275, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
