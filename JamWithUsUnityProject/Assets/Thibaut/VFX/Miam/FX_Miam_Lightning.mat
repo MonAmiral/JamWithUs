@@ -139,7 +139,7 @@ Material:
     m_Colors:
     - _BackColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Colo: {r: 1, g: 1, b: 1, a: 0}
+    - _Colo: {r: 7.129739, g: 7.129739, b: 7.129739, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColumnsRows: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

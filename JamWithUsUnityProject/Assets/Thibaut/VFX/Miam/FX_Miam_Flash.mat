@@ -139,8 +139,8 @@ Material:
     m_Colors:
     - _BackColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Colo: {r: 0.9009434, g: 1, b: 0.97148913, a: 0}
-    - _Colo2: {r: 0.5921569, g: 0.8627451, b: 1, a: 0}
+    - _Colo: {r: 4.131186, g: 4.131186, b: 4.131186, a: 0}
+    - _Colo2: {r: 6.6749234, g: 6.6749234, b: 6.6749234, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColumnsRows: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
