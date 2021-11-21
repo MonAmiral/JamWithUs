@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 	public GameObject JumpPrefab;
 	[Tooltip("Le prefab spawné lorsqu'un dash est exécuté.")]
 	public GameObject DashPrefab;
+	[Tooltip("Le prefab spawné lorsqu'un dash est prêt.")]
+	public GameObject DashReadyPrefab;
 
 	[Header("Dash")]
 	[Tooltip("La vitesse horizontale lors d'un dash.\n-X = temps en secondes, Y = multiplicateur de la vitesse de déplacement.\nLe dash se termine lorsque le temps dépasse la position du dernier point de la courbe.")]
@@ -596,6 +598,11 @@ public class PlayerController : MonoBehaviour
 		this.GameUI.VictoryScreen.SetActive(true);
 		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.NextLevelButton);
 
+		for (int i = 0; i < this.GameUI.Stars.Length; i++)
+		{
+			this.GameUI.Stars[i].SetActive(this.score > i);
+		}
+
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
 
 		int currentHighScore = PlayerPrefs.GetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", -1);
@@ -603,6 +610,11 @@ public class PlayerController : MonoBehaviour
 		{
 			PlayerPrefs.SetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", this.score);
 			PlayerPrefs.Save();
+			this.GameUI.NewHighscore.SetActive(true);
+		}
+		else
+		{
+			this.GameUI.NewHighscore.SetActive(false);
 		}
 
         this.Music.Stop();
@@ -690,6 +702,8 @@ public class PlayerController : MonoBehaviour
 				animator.Play("Interact");
 			}
 
+			collision.enabled = false;
+			GameObject.Destroy(collision.gameObject, 1f);
 			this.score++;
 		}
 	}

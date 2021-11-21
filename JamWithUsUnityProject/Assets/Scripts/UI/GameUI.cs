@@ -21,6 +21,8 @@ public class GameUI : MonoBehaviour
 	[Header("Victoire")]
 	public GameObject VictoryScreen;
 	public GameObject NextLevelButton;
+	public GameObject[] Stars;
+	public GameObject NewHighscore;
 
 	[Header("Game over")]
 	public GameObject GameOverScreen;
