@@ -457,7 +457,7 @@ public class PlayerController : MonoBehaviour
 		 && !this.movementHits[0].collider.isTrigger
 		 && this.movementHits[0].normal.y < 0.5f)
 		{
-			float distance = Vector2.Distance(hit.point, this.rigidbody.ClosestPoint(hit.point)) - 0.05f;
+			float distance = Vector2.Distance(hit.point, this.rigidbody.ClosestPoint(hit.point)) - 0.15f;
 			goalPosition = Vector2.MoveTowards(position, goalPosition, distance);
 
 			Debug.DrawRay(hit.point, hit.normal, Color.red);
@@ -506,7 +506,7 @@ public class PlayerController : MonoBehaviour
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
-			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, Quaternion.identity);
+			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, this.Model.rotation, this.transform);
 			GameObject.Destroy(fartInstance, 1f);
 		}
 		else
@@ -516,7 +516,7 @@ public class PlayerController : MonoBehaviour
 
 			if (this.DashPrefab)
 			{
-				GameObject jumpInstance = GameObject.Instantiate(this.JumpPrefab, this.Model.position, Quaternion.identity);
+				GameObject jumpInstance = GameObject.Instantiate(this.JumpPrefab, this.Model.position, this.Model.rotation, this.transform);
 				GameObject.Destroy(jumpInstance, 1f);
 			}
 		}
@@ -558,7 +558,7 @@ public class PlayerController : MonoBehaviour
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
-			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, Quaternion.identity);
+			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, this.Model.rotation, this.transform);
 			GameObject.Destroy(fartInstance, 1f);
 		}
 		else
@@ -568,7 +568,7 @@ public class PlayerController : MonoBehaviour
 
 			if (this.DashPrefab)
 			{
-				GameObject dashInstance = GameObject.Instantiate(this.DashPrefab, this.Model.position, Quaternion.identity);
+				GameObject dashInstance = GameObject.Instantiate(this.DashPrefab, this.Model.position, this.Model.rotation, this.transform);
 				GameObject.Destroy(dashInstance, 1f);
 			}
 		}
