@@ -487,6 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Curtain: {fileID: 282652965}
+  Music: {fileID: 2027795319}
 --- !u!114 &560728464
 MonoBehaviour:
   m_ObjectHideFlags: 0

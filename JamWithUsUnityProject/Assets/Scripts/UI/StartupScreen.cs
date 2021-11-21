@@ -7,6 +7,14 @@ public class StartupScreen : MonoBehaviour
 {
 	public Animator Curtain;
 
+	public GameObject Music;
+
+	private void Start()
+	{
+		GameObject.DontDestroyOnLoad(this.Music);
+		MainMenu.StartupMusic = this.Music;
+	}
+
 	private void Update()
 	{
 		if (Input.anyKeyDown)

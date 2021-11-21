@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+	public static GameObject StartupMusic;
+	public GameObject Music;
+
 	public Animator Curtain;
 
 	public Button LevelSelectionButton;
@@ -15,6 +18,11 @@ public class MainMenu : MonoBehaviour
 
 	private void Start()
 	{
+		if (MainMenu.StartupMusic)
+		{
+			GameObject.Destroy(this.Music);
+		}
+
 		for (int i = 0; i < this.LevelButtons.Length; i++)
 		{
 			int highScore = PlayerPrefs.GetInt($"JamWithUs_HighscoreLevel{i}", -1);
@@ -67,6 +75,9 @@ public class MainMenu : MonoBehaviour
 
 	private void LoadGameScene()
 	{
+		GameObject.Destroy(MainMenu.StartupMusic);
+		MainMenu.StartupMusic = null;
+
 		GameCameraController.PlayIntroduction = true;
 		SceneManager.LoadScene(this.pendingSceneName);
 	}
