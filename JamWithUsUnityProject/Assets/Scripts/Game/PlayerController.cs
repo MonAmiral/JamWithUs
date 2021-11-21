@@ -244,11 +244,7 @@ public class PlayerController : MonoBehaviour
 						this.GameUI.DashBar.fillAmount = 1f;
 						this.GameUI.DashAnimator.SetBool("Ready", true);
 
-						if (this.DashReadyPrefab)
-						{
-							GameObject dashInstance = GameObject.Instantiate(this.DashReadyPrefab, this.Model.position, this.Model.rotation, this.transform);
-							GameObject.Destroy(dashInstance, 1f);
-						}
+						this.SpawnVFX(this.DashReadyPrefab);
 					}
 				}
 			}
@@ -296,13 +292,13 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 
-        // Wait until the player moves to start the music.
-        if (this.gameHasStarted && !this.gameIsOver && !this.musicStarted)
-        {
-            this.Music.Play();
-            this.musicStarted = true;
-        }
-    }
+		// Wait until the player moves to start the music.
+		if (this.gameHasStarted && !this.gameIsOver && !this.musicStarted)
+		{
+			this.Music.Play();
+			this.musicStarted = true;
+		}
+	}
 
 	private void UpdateModelRotation()
 	{
@@ -516,19 +512,14 @@ public class PlayerController : MonoBehaviour
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
-			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, this.Model.rotation, this.transform);
-			GameObject.Destroy(fartInstance, 1f);
+			this.SpawnVFX(this.FartPrefab);
 		}
 		else
 		{
 			this.activeFartScale = 0f;
 			this.PlaySound(this.JumpStart);
 
-			if (this.JumpPrefab)
-			{
-				GameObject jumpInstance = GameObject.Instantiate(this.JumpPrefab, this.Model.position, this.Model.rotation, this.transform);
-				GameObject.Destroy(jumpInstance, 1f);
-			}
+			this.SpawnVFX(this.JumpPrefab);
 		}
 	}
 
@@ -568,19 +559,14 @@ public class PlayerController : MonoBehaviour
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
-			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, this.Model.rotation, this.transform);
-			GameObject.Destroy(fartInstance, 1f);
+			this.SpawnVFX(this.FartPrefab);
 		}
 		else
 		{
 			this.activeFartScale = 0f;
 			this.PlaySound(this.Dash);
 
-			if (this.DashPrefab)
-			{
-				GameObject dashInstance = GameObject.Instantiate(this.DashPrefab, this.Model.position, this.Model.rotation, this.transform);
-				GameObject.Destroy(dashInstance, 1f);
-			}
+			this.SpawnVFX(this.DashPrefab, true);
 		}
 	}
 
@@ -623,9 +609,9 @@ public class PlayerController : MonoBehaviour
 			this.GameUI.NewHighscore.SetActive(false);
 		}
 
-        this.Music.Stop();
-        this.musicStarted = false;
-    }
+		this.Music.Stop();
+		this.musicStarted = false;
+	}
 
 	private void GameOver()
 	{
@@ -644,9 +630,9 @@ public class PlayerController : MonoBehaviour
 
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
 
-        this.Music.Stop();
-        this.musicStarted = false;
-    }
+		this.Music.Stop();
+		this.musicStarted = false;
+	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -845,11 +831,7 @@ public class PlayerController : MonoBehaviour
 			this.Victory();
 		}
 
-		if (potion.VFXPrefab)
-		{
-			GameObject dashInstance = GameObject.Instantiate(potion.VFXPrefab, this.Model.position, this.Model.rotation, this.transform);
-			GameObject.Destroy(dashInstance, 1f);
-		}
+		this.SpawnVFX(potion.VFXPrefab);
 	}
 
 	private void SpawnFollowingDanger()
@@ -870,6 +852,28 @@ public class PlayerController : MonoBehaviour
 		}
 
 		this.AudioSource.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
+	}
+
+	private void SpawnVFX(GameObject prefab, bool dontLookDown = false)
+	{
+		if (prefab == null)
+		{
+			return;
+		}
+
+		GameObject dashInstance = GameObject.Instantiate(prefab, this.Model.position, Quaternion.LookRotation(Vector3.forward, this.Model.up), this.transform);
+
+		if (dontLookDown && this.Model.forward.y < 0)
+		{
+			dashInstance.transform.rotation = Quaternion.identity;
+		}
+
+		if (this.Model.forward.x < 0)
+		{
+			dashInstance.transform.localScale = new Vector3(-1f, 1f, 1f);
+		}
+
+		GameObject.Destroy(dashInstance, 1f);
 	}
 
 	private void OnDrawGizmos()
