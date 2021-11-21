@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour
 			this.UpdateNormalVelocityAndMove(position, deltaTime);
 		}
 
-		this.lastVelocity = this.transform.position - (Vector3)position;
+		this.lastVelocity = (Vector3)((Vector2)this.transform.position - position);
 	}
 
 	private void UpdateDashVelocityAndMove(Vector2 position, float deltaTime)
