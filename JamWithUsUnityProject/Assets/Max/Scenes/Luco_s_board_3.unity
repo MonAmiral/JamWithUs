@@ -1914,6 +1914,10 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2867334176517140531, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3985853044298521804, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Luco_s_board_4
@@ -1965,6 +1969,18 @@ PrefabInstance:
     - target: {fileID: 7379978882788546358, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: WinWhenCorruptionReachesZero
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542331640133992046, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 20.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542331640133992046, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542331640133992046, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.22
       objectReference: {fileID: 0}
     - target: {fileID: 7721892262923408389, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -14735,7 +14751,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427929692}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
