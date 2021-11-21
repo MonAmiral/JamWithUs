@@ -67,6 +67,7 @@ public class MainMenu : MonoBehaviour
 
 	private void LoadGameScene()
 	{
+		GameCameraController.PlayIntroduction = true;
 		SceneManager.LoadScene(this.pendingSceneName);
 	}
 }

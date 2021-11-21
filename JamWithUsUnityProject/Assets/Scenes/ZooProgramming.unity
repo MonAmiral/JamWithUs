@@ -5233,10 +5233,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerGroup
       objectReference: {fileID: 0}
-    - target: {fileID: 7379978882685194429, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
-      propertyPath: MovementSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7379978882788546358, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: RequiredTriggers
       value: 2

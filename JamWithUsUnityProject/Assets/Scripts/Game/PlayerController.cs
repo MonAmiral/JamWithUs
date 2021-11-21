@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour
 	private int facing = 2;
 	private RaycastHit2D[] movementHits = new RaycastHit2D[1];
 
+	private bool introInProgress;
 	private bool gameHasStarted;
 	private bool gameIsOver;
 
@@ -138,6 +139,8 @@ public class PlayerController : MonoBehaviour
 		currentCorruption = StartingCorruption;
 		this.rigidbody = this.GetComponent<Rigidbody2D>();
 		this.dashDuration = this.DashHorizontalSpeed.keys[this.DashHorizontalSpeed.keys.Length - 1].time;
+
+		this.introInProgress = GameCameraController.PlayIntroduction;
 	}
 
 	private void Update()
@@ -152,16 +155,33 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 
-		this.UpdateInput();
 		this.UpdateCorruption();
 		this.UpdateAnimator();
         this.UpdateMusic();
 		this.UpdateModelRotation();
 
+		if (this.introInProgress)
+		{
+			if (GameCameraController.PlayIntroduction && Input.anyKeyDown)
+			{
+				GameCameraController.PlayIntroduction = false;
+				this.Invoke(nameof(FinishIntro), 1f);
+			}
+
+			return;
+		}
+
+		this.UpdateInput();
+
 		if (this.transform.position.y < this.KillAltitude)
 		{
 			this.GameOver();
 		}
+	}
+
+	private void FinishIntro()
+	{
+		this.introInProgress = false;
 	}
 
 	private void UpdateInput()
@@ -412,8 +432,8 @@ public class PlayerController : MonoBehaviour
 
 		// Move.
 		float goalDistance = Vector2.Distance(position, goalPosition);
-		if (this.rigidbody.Cast(goalPosition - position, this.movementHits, goalDistance) > 0 
-		 && !this.movementHits[0].collider.isTrigger 
+		if (this.rigidbody.Cast(goalPosition - position, this.movementHits, goalDistance) > 0
+		 && !this.movementHits[0].collider.isTrigger
 		 && this.movementHits[0].normal.y < 0.5f)
 		{
 			float distance = Vector2.Distance(hit.point, this.rigidbody.ClosestPoint(hit.point)) - 0.05f;
