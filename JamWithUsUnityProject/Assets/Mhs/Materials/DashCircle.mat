@@ -114,6 +114,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _IsDissolveCustom: 0
+    - _IsGradientDissolve: 0
     - _IsVgradient: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -123,8 +125,11 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpeedU: 0
+    - _SpeedV: 0
     - _SrcBlend: 1
     - _Surface: 0
+    - _Threshold: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
