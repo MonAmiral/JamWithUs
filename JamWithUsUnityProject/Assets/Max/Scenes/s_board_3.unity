@@ -2817,7 +2817,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 7870c51c90066554cbe6ed866e593b4c, type: 2}
     - target: {fileID: 3985853044298521804, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Luco_s_board_1
+      value: VictoryScreen
       objectReference: {fileID: 0}
     - target: {fileID: 4314714856081826258, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2889,7 +2889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7379978882788546358, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: LevelIndex
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7379978882788546358, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: KillAltitude

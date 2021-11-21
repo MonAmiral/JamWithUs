@@ -258,6 +258,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8578344230415055194, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8578344230633385092, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_text
       value: 7
@@ -639,7 +643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Luco_s_board_2
+      value: Luco_s_board_3
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
@@ -796,7 +800,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: s_board_3
+      value: Luco_s_board_1
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
@@ -3859,7 +3863,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Luco_s_board_3
+      value: s_board3
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
@@ -6235,7 +6239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Luco_s_board_1
+      value: Luco_s_board_2
       objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
