@@ -7,13 +7,13 @@ public class SettingsMenu : MonoBehaviour
 {
 	public bool AutoPause;
 	
-	public Slider MusicSlider, SFXSlider;
+	public Slider MainVolumeSlider, MusicVolumeSlider;
 
 	public TMPro.TMP_InputField WidthField, HeightField;
 	public Toggle FullScreenToggle;
 
 	public Animator Curtain;
-	private string pendingSceneName;
+    private string pendingSceneName;
 
 	private void OnEnable()
 	{
@@ -21,10 +21,10 @@ public class SettingsMenu : MonoBehaviour
 		this.HeightField.text = Screen.height.ToString();
 		this.FullScreenToggle.SetIsOnWithoutNotify(Screen.fullScreen);
 
-		this.SFXSlider.SetValueWithoutNotify(Settings.SFXVolume);
-		this.MusicSlider.SetValueWithoutNotify(Settings.MusicVolume);
+		this.MainVolumeSlider.SetValueWithoutNotify(Settings.MainVolume);
+        this.MusicVolumeSlider.SetValueWithoutNotify(Settings.MusicVolume);
 
-		if (this.AutoPause)
+        if (this.AutoPause)
 		{
 			Time.timeScale = 0f;
 		}
@@ -38,15 +38,15 @@ public class SettingsMenu : MonoBehaviour
 		}
 	}
 
-	public void SetMusicVolume(float value)
-	{
-		Settings.MusicVolume = value;
-	}
+	public void SetMainVolume()
+    {
+        Settings.MainVolume = this.MainVolumeSlider.value;
+    }
 
-	public void SetSFXVolume(float value)
-	{
-		Settings.SFXVolume = value;
-	}
+	public void SetMusicVolume()
+    {
+        Settings.MusicVolume = this.MusicVolumeSlider.value;
+    }
 
 	public void ToggleFullScreen(bool newValue)
 	{
