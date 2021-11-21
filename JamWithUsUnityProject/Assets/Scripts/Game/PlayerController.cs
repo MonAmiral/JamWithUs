@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
 		this.UpdateCorruption();
 		this.UpdateAnimator();
         this.UpdateMusic();
+		this.UpdateModelRotation();
 
 		if (this.transform.position.y < this.KillAltitude)
 		{
@@ -176,8 +177,6 @@ public class PlayerController : MonoBehaviour
 				this.horizontalInput = Mathf.Sign(this.horizontalInput);
 			}
 		}
-
-		this.Model.localRotation = Quaternion.Lerp(this.Model.localRotation, Quaternion.Euler(Vector3.up * 90 * this.facing), Time.deltaTime * this.RotationSpeed);
 
 		this.gameHasStarted |= this.horizontalInput != 0f;
 
@@ -267,6 +266,19 @@ public class PlayerController : MonoBehaviour
             this.musicStarted = true;
         }
     }
+
+	private void UpdateModelRotation()
+	{
+		Vector3 desiredEuler = Vector3.up * 90 * this.facing;
+		RaycastHit2D hit = Physics2D.Raycast((Vector2)this.transform.position + Vector2.up * 0.05f, Vector2.down, 0.1f, this.FloorLayer);
+		if (hit.collider)
+		{
+			Quaternion normalLook = Quaternion.LookRotation(Vector3.forward, hit.normal);
+			desiredEuler.x = normalLook.eulerAngles.z * this.facing * -1f;
+		}
+
+		this.Model.localRotation = Quaternion.Lerp(this.Model.localRotation, Quaternion.Euler(desiredEuler), Time.deltaTime * this.RotationSpeed);
+	}
 
 	private void FixedUpdate()
 	{

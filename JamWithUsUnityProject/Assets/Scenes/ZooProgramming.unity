@@ -5221,6 +5221,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 543450652738498419, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450652738498419, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 6745137142211632285, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_Name
       value: PlayerGroup
@@ -5232,6 +5240,10 @@ PrefabInstance:
     - target: {fileID: 7379978882788546358, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: RequiredTriggers
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379978882788546358, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: CorruptionPerSecond
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7379978882788546358, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: RequiredIngredients
