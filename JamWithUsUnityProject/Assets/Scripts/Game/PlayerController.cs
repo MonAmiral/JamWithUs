@@ -104,9 +104,9 @@ public class PlayerController : MonoBehaviour
 	public AudioClip[] Dash;
 	public AudioClip[] Fart;
 	public AudioClip[] Potion;
-    public AudioSource Music;
+	public AudioSource Music;
 
-    private bool musicStarted = false;
+	private bool musicStarted = false;
 
 	private new Rigidbody2D rigidbody;
 
@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviour
 	private bool hasLandedAfterDash;
 	private float verticalSpeed;
 	private Vector3 lastVelocity;
+	private float climbRatio;
 
 	private int facing = 2;
 	private RaycastHit2D[] movementHits = new RaycastHit2D[1];
@@ -157,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
 		this.UpdateCorruption();
 		this.UpdateAnimator();
-        this.UpdateMusic();
+		this.UpdateMusic();
 		this.UpdateModelRotation();
 
 		if (this.introInProgress)
@@ -278,12 +279,12 @@ public class PlayerController : MonoBehaviour
 		this.Animator.SetBool("IsOnGround", this.airTime == 0f && this.hasLandedAfterDash);
 	}
 
-    private void UpdateMusic()
-    {
-        if (this.Music == null)
-        {
-            return;
-        }
+	private void UpdateMusic()
+	{
+		if (this.Music == null)
+		{
+			return;
+		}
 
         // Wait until the player moves to start the music.
         if (this.gameHasStarted && !this.gameIsOver && !this.musicStarted)
@@ -414,6 +415,7 @@ public class PlayerController : MonoBehaviour
 			goalPosition = position + movement;
 		}
 
+		// Update air time.
 		if (this.isJumping && this.verticalSpeed > 0 || hit.collider == null)
 		{
 			// Can't land when ascending.
@@ -430,7 +432,26 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
+		// Climb up ledges.
+		if (this.ShouldClimb(position))
+		{
+			this.climbRatio = Mathf.MoveTowards(this.climbRatio, 1f, deltaTime * 5f);
+			this.airTime -= deltaTime * 1.1f;
+			goalPosition.y = Mathf.Max(goalPosition.y, position.y);
+		}
+		else
+		{
+			this.climbRatio = Mathf.MoveTowards(this.climbRatio, 0f, deltaTime * 3f);
+		}
+
+		goalPosition += this.climbRatio * Vector2.up * deltaTime * 5f;
+
 		// Move.
+		if (this.airTime == 0f)
+		{
+			position += Vector2.up * 0.1f;
+		}
+
 		float goalDistance = Vector2.Distance(position, goalPosition);
 		if (this.rigidbody.Cast(goalPosition - position, this.movementHits, goalDistance) > 0
 		 && !this.movementHits[0].collider.isTrigger
@@ -443,7 +464,30 @@ public class PlayerController : MonoBehaviour
 		}
 
 		this.rigidbody.MovePosition(goalPosition);
+	}
 
+	private bool ShouldClimb(Vector2 position)
+	{
+		if (this.airTime == 0f || this.horizontalSpeedRatio == 0f)
+		{
+			return false;
+		}
+		
+		Vector2 centerCheckStart = position + Vector2.up * 0.7f;
+		RaycastHit2D centerHit = Physics2D.Raycast(centerCheckStart, Vector2.down, 0.7f, this.FloorLayer);
+		if (centerHit.collider != null)
+		{
+			return false;
+		}
+
+		Vector2 ledgeTopCheckStart = position + new Vector2(this.horizontalSpeedRatio * 0.7f, 0.7f);
+		RaycastHit2D ledgeTopHit = Physics2D.Raycast(ledgeTopCheckStart, Vector2.down, 0.7f, this.FloorLayer);
+		if (ledgeTopHit.collider == null)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	private void StartJump()
