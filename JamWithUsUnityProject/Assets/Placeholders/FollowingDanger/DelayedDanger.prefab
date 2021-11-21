@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3148511814147506459}
   - component: {fileID: 3148511814147506453}
   - component: {fileID: 3148511814147506458}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 3148511814857973879}
   - component: {fileID: 3148511814857973876}
   - component: {fileID: 7029690370776064614}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: DelayedDanger
   m_TagString: Danger
   m_Icon: {fileID: 0}
@@ -220,6 +220,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a2153d7fb0d0ea2468d52ca4b7d4a55f, type: 3}
       propertyPath: m_Name
       value: JAM_Gordo
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a2153d7fb0d0ea2468d52ca4b7d4a55f, type: 3}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2940593932321968050, guid: a2153d7fb0d0ea2468d52ca4b7d4a55f, type: 3}
+      propertyPath: m_Layer
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2153d7fb0d0ea2468d52ca4b7d4a55f, type: 3}
