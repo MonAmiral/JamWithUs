@@ -9745,7 +9745,7 @@ GameObject:
   - component: {fileID: 3651561069916946830}
   - component: {fileID: 3651561069916946825}
   m_Layer: 0
-  m_Name: FX_Lightning
+  m_Name: FX_Miam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
