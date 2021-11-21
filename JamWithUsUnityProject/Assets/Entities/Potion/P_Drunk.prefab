@@ -56,6 +56,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
+      propertyPath: VFXPrefab
+      value: 
+      objectReference: {fileID: 8082203491176427573, guid: f8c4b1a6aefe8a944a17519fec88887f, type: 3}
+    - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
       propertyPath: DrunkPercentage
       value: 20
       objectReference: {fileID: 0}

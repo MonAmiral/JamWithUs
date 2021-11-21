@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: FartScale
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
+      propertyPath: VFXPrefab
+      value: 
+      objectReference: {fileID: 643064469493499525, guid: 8be5288a8855f8a4ab34b0b26def7438, type: 3}
     - target: {fileID: 7215873236034250568, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

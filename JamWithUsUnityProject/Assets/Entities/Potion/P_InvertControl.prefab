@@ -56,6 +56,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
+      propertyPath: VFXPrefab
+      value: 
+      objectReference: {fileID: 7618881061714208943, guid: 80978874db4cf6141a0c89f1879c3a1d, type: 3}
+    - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
       propertyPath: InvertControls
       value: 1
       objectReference: {fileID: 0}

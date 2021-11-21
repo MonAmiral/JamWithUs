@@ -56,6 +56,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
+      propertyPath: VFXPrefab
+      value: 
+      objectReference: {fileID: 2613483529742333955, guid: 8059ff82e6f1ed04baacdf5459d98ee7, type: 3}
+    - target: {fileID: 2606983746015192879, guid: c2a7a3cb51e64874c85f15185cf8fbea, type: 3}
       propertyPath: ReduceVision
       value: 1
       objectReference: {fileID: 0}
