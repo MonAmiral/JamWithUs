@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameCameraController : MonoBehaviour
 {
+	private static GameCameraController Instance;
+
 	public Rect MovementArea;
 	public Vector3 Offset;
 
@@ -15,6 +17,11 @@ public class GameCameraController : MonoBehaviour
 	[Space]
 	public float MovementSpeed;
 	private Vector3 velocity;
+
+	private void Start()
+	{
+		GameCameraController.Instance = this;
+	}
 
 	public void LateUpdate()
 	{
@@ -33,6 +40,11 @@ public class GameCameraController : MonoBehaviour
 
 	public void ReEnableIntroduction()
 	{
+		if (GameCameraController.Instance)
+		{
+			GameCameraController.Instance.enabled = false;
+		}
+
 		GameCameraController.PlayIntroduction = true;
 	}
 
