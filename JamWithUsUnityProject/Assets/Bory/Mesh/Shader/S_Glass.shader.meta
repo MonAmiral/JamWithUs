@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 049a719a44ee3024685a78ccbb507304
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Platform_Rock_3x3x05_DefaultMaterial_BaseColor: {fileID: 2800000, guid: 1df559d80e201c845afdaa41c39e4726, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

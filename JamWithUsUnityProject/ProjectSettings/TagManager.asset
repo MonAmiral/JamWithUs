@@ -11,6 +11,7 @@ TagManager:
   - Ingredient
   - Cauldron
   - DashDestructible
+  - Score
   layers:
   - Default
   - TransparentFX

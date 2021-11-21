@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviour
 	[Tooltip("Si le joueur descend plus bas que cette altitude, c'est game over.\nCe n'est pas censé arriver, c'est pour si jamais y'a un bug et qu'une plateforme est traversée.")]
 	public float KillAltitude = -10;
 
+	[Space]
+	[Tooltip("Le prefab spawné lorsqu'un saut est exécuté.")]
+	public GameObject JumpPrefab;
+	[Tooltip("Le prefab spawné lorsqu'un dash est exécuté.")]
+	public GameObject DashPrefab;
+
 	[Header("Dash")]
 	[Tooltip("La vitesse horizontale lors d'un dash.\n-X = temps en secondes, Y = multiplicateur de la vitesse de déplacement.\nLe dash se termine lorsque le temps dépasse la position du dernier point de la courbe.")]
 	public AnimationCurve DashHorizontalSpeed;
@@ -98,6 +104,9 @@ public class PlayerController : MonoBehaviour
 	public AudioClip[] Dash;
 	public AudioClip[] Fart;
 	public AudioClip[] Potion;
+	public AudioSource Music;
+
+	private bool musicStarted = false;
 
 	private new Rigidbody2D rigidbody;
 
@@ -110,10 +119,12 @@ public class PlayerController : MonoBehaviour
 	private bool hasLandedAfterDash;
 	private float verticalSpeed;
 	private Vector3 lastVelocity;
+	private float climbRatio;
 
 	private int facing = 2;
 	private RaycastHit2D[] movementHits = new RaycastHit2D[1];
 
+	private bool introInProgress;
 	private bool gameHasStarted;
 	private bool gameIsOver;
 
@@ -124,11 +135,15 @@ public class PlayerController : MonoBehaviour
 	private float activeFartScale;
 	private float pendingFartScale;
 
+	private int score;
+
 	private void Start()
 	{
 		currentCorruption = StartingCorruption;
 		this.rigidbody = this.GetComponent<Rigidbody2D>();
 		this.dashDuration = this.DashHorizontalSpeed.keys[this.DashHorizontalSpeed.keys.Length - 1].time;
+
+		this.introInProgress = GameCameraController.PlayIntroduction;
 	}
 
 	private void Update()
@@ -143,14 +158,33 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 
-		this.UpdateInput();
 		this.UpdateCorruption();
 		this.UpdateAnimator();
+		this.UpdateMusic();
+		this.UpdateModelRotation();
+
+		if (this.introInProgress)
+		{
+			if (GameCameraController.PlayIntroduction && Input.anyKeyDown)
+			{
+				GameCameraController.PlayIntroduction = false;
+				this.Invoke(nameof(FinishIntro), 1f);
+			}
+
+			return;
+		}
+
+		this.UpdateInput();
 
 		if (this.transform.position.y < this.KillAltitude)
 		{
 			this.GameOver();
 		}
+	}
+
+	private void FinishIntro()
+	{
+		this.introInProgress = false;
 	}
 
 	private void UpdateInput()
@@ -172,8 +206,6 @@ public class PlayerController : MonoBehaviour
 				this.horizontalInput = Mathf.Sign(this.horizontalInput);
 			}
 		}
-
-		this.Model.localRotation = Quaternion.Lerp(this.Model.localRotation, Quaternion.Euler(Vector3.up * 90 * this.facing), Time.deltaTime * this.RotationSpeed);
 
 		this.gameHasStarted |= this.horizontalInput != 0f;
 
@@ -247,6 +279,34 @@ public class PlayerController : MonoBehaviour
 		this.Animator.SetFloat("SpeedRatio", Mathf.Abs(this.horizontalSpeedRatio));
 		this.Animator.SetBool("IsFalling", this.verticalSpeed < 0f);
 		this.Animator.SetBool("IsOnGround", this.airTime == 0f && this.hasLandedAfterDash);
+	}
+
+	private void UpdateMusic()
+	{
+		if (this.Music == null)
+		{
+			return;
+		}
+
+        // Wait until the player moves to start the music.
+        if (this.gameHasStarted && !this.gameIsOver && !this.musicStarted)
+        {
+            this.Music.Play();
+            this.musicStarted = true;
+        }
+    }
+
+	private void UpdateModelRotation()
+	{
+		Vector3 desiredEuler = Vector3.up * 90 * this.facing;
+		RaycastHit2D hit = Physics2D.Raycast((Vector2)this.transform.position + Vector2.up * 0.05f, Vector2.down, 0.1f, this.FloorLayer);
+		if (hit.collider)
+		{
+			Quaternion normalLook = Quaternion.LookRotation(Vector3.forward, hit.normal);
+			desiredEuler.x = normalLook.eulerAngles.z * this.facing * -1f;
+		}
+
+		this.Model.localRotation = Quaternion.Lerp(this.Model.localRotation, Quaternion.Euler(desiredEuler), Time.deltaTime * this.RotationSpeed);
 	}
 
 	private void FixedUpdate()
@@ -357,6 +417,7 @@ public class PlayerController : MonoBehaviour
 			goalPosition = position + movement;
 		}
 
+		// Update air time.
 		if (this.isJumping && this.verticalSpeed > 0 || hit.collider == null)
 		{
 			// Can't land when ascending.
@@ -373,17 +434,62 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		// Move.
-		if (this.rigidbody.Cast(goalPosition - position, this.movementHits) > 0 && !this.movementHits[0].collider.isTrigger && this.movementHits[0].normal.y < 0.5f)
+		// Climb up ledges.
+		if (this.ShouldClimb(position))
 		{
-			float distance = Vector2.Distance(hit.point, this.rigidbody.ClosestPoint(hit.point)) - 0.05f;
+			this.climbRatio = Mathf.MoveTowards(this.climbRatio, 1f, deltaTime * 5f);
+			this.airTime -= deltaTime * 1.1f;
+			goalPosition.y = Mathf.Max(goalPosition.y, position.y);
+		}
+		else
+		{
+			this.climbRatio = Mathf.MoveTowards(this.climbRatio, 0f, deltaTime * 3f);
+		}
+
+		goalPosition += this.climbRatio * Vector2.up * deltaTime * 5f;
+
+		// Move.
+		if (this.airTime == 0f)
+		{
+			position += Vector2.up * 0.1f;
+		}
+
+		float goalDistance = Vector2.Distance(position, goalPosition);
+		if (this.rigidbody.Cast(goalPosition - position, this.movementHits, goalDistance) > 0
+		 && !this.movementHits[0].collider.isTrigger
+		 && this.movementHits[0].normal.y < 0.5f)
+		{
+			float distance = Vector2.Distance(hit.point, this.rigidbody.ClosestPoint(hit.point)) - 0.15f;
 			goalPosition = Vector2.MoveTowards(position, goalPosition, distance);
 
 			Debug.DrawRay(hit.point, hit.normal, Color.red);
 		}
 
 		this.rigidbody.MovePosition(goalPosition);
+	}
 
+	private bool ShouldClimb(Vector2 position)
+	{
+		if (this.airTime == 0f || this.horizontalSpeedRatio == 0f)
+		{
+			return false;
+		}
+
+		Vector2 centerCheckStart = position + Vector2.up * 0.7f;
+		RaycastHit2D centerHit = Physics2D.Raycast(centerCheckStart, Vector2.down, 0.7f, this.FloorLayer);
+		if (centerHit.collider != null)
+		{
+			return false;
+		}
+
+		Vector2 ledgeTopCheckStart = position + new Vector2(this.horizontalSpeedRatio * 0.7f, 0.7f);
+		RaycastHit2D ledgeTopHit = Physics2D.Raycast(ledgeTopCheckStart, Vector2.down, 0.7f, this.FloorLayer);
+		if (ledgeTopHit.collider == null)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	private void StartJump()
@@ -402,13 +508,19 @@ public class PlayerController : MonoBehaviour
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
-			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, Quaternion.identity);
+			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, this.Model.rotation, this.transform);
 			GameObject.Destroy(fartInstance, 1f);
 		}
 		else
 		{
 			this.activeFartScale = 0f;
 			this.PlaySound(this.JumpStart);
+
+			if (this.DashPrefab)
+			{
+				GameObject jumpInstance = GameObject.Instantiate(this.JumpPrefab, this.Model.position, this.Model.rotation, this.transform);
+				GameObject.Destroy(jumpInstance, 1f);
+			}
 		}
 	}
 
@@ -448,13 +560,19 @@ public class PlayerController : MonoBehaviour
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
-			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, Quaternion.identity);
+			GameObject fartInstance = GameObject.Instantiate(this.FartPrefab, this.transform.position, this.Model.rotation, this.transform);
 			GameObject.Destroy(fartInstance, 1f);
 		}
 		else
 		{
 			this.activeFartScale = 0f;
 			this.PlaySound(this.Dash);
+
+			if (this.DashPrefab)
+			{
+				GameObject dashInstance = GameObject.Instantiate(this.DashPrefab, this.Model.position, this.Model.rotation, this.transform);
+				GameObject.Destroy(dashInstance, 1f);
+			}
 		}
 	}
 
@@ -480,9 +598,16 @@ public class PlayerController : MonoBehaviour
 
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
 
-		PlayerPrefs.SetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", 2);
-		PlayerPrefs.Save();
-	}
+		int currentHighScore = PlayerPrefs.GetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", -1);
+		if (this.score > currentHighScore)
+		{
+			PlayerPrefs.SetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", this.score);
+			PlayerPrefs.Save();
+		}
+
+        this.Music.Stop();
+        this.musicStarted = false;
+    }
 
 	private void GameOver()
 	{
@@ -500,7 +625,10 @@ public class PlayerController : MonoBehaviour
 		UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(this.GameUI.RestartButton);
 
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
-	}
+
+        this.Music.Stop();
+        this.musicStarted = false;
+    }
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -553,6 +681,17 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 		}
+
+		if (collision.tag == "Score")
+		{
+			Animator animator = collision.GetComponent<Animator>();
+			if (animator)
+			{
+				animator.Play("Interact");
+			}
+
+			this.score++;
+		}
 	}
 
 	private void OnTriggerStay2D(Collider2D collision)
@@ -569,7 +708,11 @@ public class PlayerController : MonoBehaviour
 				collision.enabled = false;
 				this.RequiredTriggers--;
 
-				collision.GetComponent<Animator>().Play("Interact");
+				Animator animator = collision.GetComponent<Animator>();
+				if (animator)
+				{
+					animator.Play("Interact");
+				}
 
 				if (this.RequiredTriggers == 0)
 				{

@@ -162,6 +162,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   KillAltitude: -2
+  JumpPrefab: {fileID: 986725978525352900, guid: 8825488aea024284bb2ac373da4c23eb, type: 3}
+  DashPrefab: {fileID: 986725978525352900, guid: 8825488aea024284bb2ac373da4c23eb, type: 3}
   DashHorizontalSpeed:
     serializedVersion: 2
     m_Curve:
@@ -301,6 +303,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2e9e0a2d0e0b82546b433346110875ba, type: 3}
   Potion:
   - {fileID: 8300000, guid: 64abd7d991bbaa54280ee564cbd474b9, type: 3}
+  Music: {fileID: 0}
 --- !u!60 &6496441464656956242
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -328,7 +331,7 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: 1}
       - {x: -0.7, y: 0.7}
-      - {x: 0, y: 0}
+      - {x: 0, y: 0.1}
       - {x: 0.7, y: 0.7}
 --- !u!50 &6496441464656956243
 Rigidbody2D:
@@ -360,7 +363,7 @@ AudioSource:
   m_GameObject: {fileID: 6496441464656956246}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 5646468005320369996, guid: 79652c99858e6fb42a68eee597b2b741, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

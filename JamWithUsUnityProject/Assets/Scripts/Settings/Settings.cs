@@ -6,11 +6,11 @@ public static class Settings
 {
 	private static bool initialized;
 
-	public static System.Action<float> SFXVolumeChanged;
+	public static System.Action<float> MainVolumeChanged;
 	public static System.Action<float> MusicVolumeChanged;
 
-	private static float sfxVolume = 1f;
-	public static float SFXVolume
+	private static float mainVolume = 1f;
+	public static float MainVolume
 	{
 		get
 		{
@@ -19,16 +19,16 @@ public static class Settings
 				Initialize();
 			}
 
-			return sfxVolume;
+			return mainVolume;
 		}
 
 		set
 		{
-			sfxVolume = value;
-			PlayerPrefs.SetFloat("HoloWEEN_SFXVolume", value);
+			mainVolume = value;
+			PlayerPrefs.SetFloat("MainVolume", value);
 			PlayerPrefs.Save();
 
-			SFXVolumeChanged?.Invoke(value);
+			MainVolumeChanged?.Invoke(value);
 		}
 	}
 
@@ -48,7 +48,7 @@ public static class Settings
 		set
 		{
 			musicVolume = value;
-			PlayerPrefs.SetFloat("HoloWEEN_MusicVolume", value);
+			PlayerPrefs.SetFloat("MusicVolume", value);
 			PlayerPrefs.Save();
 
 			MusicVolumeChanged?.Invoke(value);
@@ -59,7 +59,7 @@ public static class Settings
 	{
 		initialized = true;
 
-		sfxVolume = PlayerPrefs.GetFloat("HoloWEEN_SFXVolume", 1f);
-		musicVolume = PlayerPrefs.GetFloat("HoloWEEN_MusicVolume", 1f);
+		mainVolume = PlayerPrefs.GetFloat("MainVolume", 1f);
+		musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
 	}
 }
