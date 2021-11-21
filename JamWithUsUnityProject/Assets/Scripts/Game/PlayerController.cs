@@ -243,6 +243,12 @@ public class PlayerController : MonoBehaviour
 					{
 						this.GameUI.DashBar.fillAmount = 1f;
 						this.GameUI.DashAnimator.SetBool("Ready", true);
+
+						if (this.DashReadyPrefab)
+						{
+							GameObject dashInstance = GameObject.Instantiate(this.DashReadyPrefab, this.Model.position, this.Model.rotation, this.transform);
+							GameObject.Destroy(dashInstance, 1f);
+						}
 					}
 				}
 			}
@@ -518,7 +524,7 @@ public class PlayerController : MonoBehaviour
 			this.activeFartScale = 0f;
 			this.PlaySound(this.JumpStart);
 
-			if (this.DashPrefab)
+			if (this.JumpPrefab)
 			{
 				GameObject jumpInstance = GameObject.Instantiate(this.JumpPrefab, this.Model.position, this.Model.rotation, this.transform);
 				GameObject.Destroy(jumpInstance, 1f);
@@ -837,6 +843,12 @@ public class PlayerController : MonoBehaviour
 		if (this.WinWhenCorruptionReachesZero && this.currentCorruption == 0f)
 		{
 			this.Victory();
+		}
+
+		if (potion.VFXPrefab)
+		{
+			GameObject dashInstance = GameObject.Instantiate(potion.VFXPrefab, this.Model.position, this.Model.rotation, this.transform);
+			GameObject.Destroy(dashInstance, 1f);
 		}
 	}
 

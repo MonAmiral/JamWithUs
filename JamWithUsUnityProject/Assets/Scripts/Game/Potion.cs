@@ -5,6 +5,7 @@ using UnityEngine;
 public class Potion : MonoBehaviour
 {
 	public int Corruption;
+	public GameObject VFXPrefab;
 
 	[Space]
 	public bool InvertControls;
