@@ -218,10 +218,10 @@ MonoBehaviour:
   GameUI: {fileID: 0}
   CameraAnimator: {fileID: 0}
   LevelIndex: 0
-  RequiredTriggers: 2
+  RequiredTriggers: 0
   TriggersRequireDash: 0
   WinWhenCorruptionReachesZero: 0
-  RequiredIngredients: 2
+  RequiredIngredients: 0
   IngredientAnchor: {fileID: 6158278617122380136}
   IngredientVerticalCurve:
     serializedVersion: 2

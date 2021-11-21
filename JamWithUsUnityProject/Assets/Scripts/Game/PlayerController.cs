@@ -398,6 +398,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
+			this.activeFartScale = 0f;
 			this.PlaySound(this.JumpStart);
 		}
 	}
@@ -441,6 +442,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
+			this.activeFartScale = 0f;
 			this.PlaySound(this.Dash);
 		}
 	}
