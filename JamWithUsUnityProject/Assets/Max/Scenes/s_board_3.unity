@@ -2743,6 +2743,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 434095055854160553, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.17072438
+      objectReference: {fileID: 0}
+    - target: {fileID: 434095055854160553, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.96331716
+      objectReference: {fileID: 0}
+    - target: {fileID: 434095055854160553, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.19785252
+      objectReference: {fileID: 0}
+    - target: {fileID: 434095055854160553, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.061054848
+      objectReference: {fileID: 0}
     - target: {fileID: 847953573076246299, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_text
       value: Gather the 4 antidotes in each corner to finaly earn your exam!
@@ -2781,7 +2797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1031936309644635757, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 24.99997
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1031936309644635757, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -2795,13 +2811,37 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2867334176517140531, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7870c51c90066554cbe6ed866e593b4c, type: 2}
     - target: {fileID: 3985853044298521804, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Luco_s_board_1
       objectReference: {fileID: 0}
+    - target: {fileID: 4314714856081826258, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.083
+      objectReference: {fileID: 0}
     - target: {fileID: 5940437492162298487, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042519224907924014, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9633172
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042519224907924014, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.17072432
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042519224907924014, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.061054837
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042519224907924014, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.1978525
       objectReference: {fileID: 0}
     - target: {fileID: 6745137142211632285, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_Name
@@ -2941,7 +2981,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7542331640133992046, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -25.42
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 8152180346791979547, guid: bee05ddccb12bc74e95118e89840e671, type: 3}
       propertyPath: m_RootOrder
