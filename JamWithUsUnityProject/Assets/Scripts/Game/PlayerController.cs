@@ -135,6 +135,8 @@ public class PlayerController : MonoBehaviour
 	private float activeFartScale;
 	private float pendingFartScale;
 
+	private int score;
+
 	private void Start()
 	{
 		currentCorruption = StartingCorruption;
@@ -472,7 +474,7 @@ public class PlayerController : MonoBehaviour
 		{
 			return false;
 		}
-		
+
 		Vector2 centerCheckStart = position + Vector2.up * 0.7f;
 		RaycastHit2D centerHit = Physics2D.Raycast(centerCheckStart, Vector2.down, 0.7f, this.FloorLayer);
 		if (centerHit.collider != null)
@@ -486,7 +488,7 @@ public class PlayerController : MonoBehaviour
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -596,8 +598,12 @@ public class PlayerController : MonoBehaviour
 
 		this.CancelInvoke(nameof(SpawnFollowingDanger));
 
-		PlayerPrefs.SetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", 2);
-		PlayerPrefs.Save();
+		int currentHighScore = PlayerPrefs.GetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", -1);
+		if (this.score > currentHighScore)
+		{
+			PlayerPrefs.SetInt($"JamWithUs_HighscoreLevel{this.LevelIndex}", this.score);
+			PlayerPrefs.Save();
+		}
 
         this.Music.Stop();
         this.musicStarted = false;
@@ -674,6 +680,17 @@ public class PlayerController : MonoBehaviour
 					this.Victory();
 				}
 			}
+		}
+
+		if (collision.tag == "Score")
+		{
+			Animator animator = collision.GetComponent<Animator>();
+			if (animator)
+			{
+				animator.Play("Interact");
+			}
+
+			this.score++;
 		}
 	}
 

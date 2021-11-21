@@ -17,11 +17,11 @@ public class MainMenu : MonoBehaviour
 	{
 		for (int i = 0; i < this.LevelButtons.Length; i++)
 		{
-			int highScore = PlayerPrefs.GetInt($"JamWithUs_HighscoreLevel{i}", 0);
+			int highScore = PlayerPrefs.GetInt($"JamWithUs_HighscoreLevel{i}", -1);
 
 			if (i == 0)
 			{
-				this.LevelSelectionButton.interactable = highScore > 0;
+				this.LevelSelectionButton.interactable = highScore >= 0;
 			}
 
 			for (int j = 0; j < this.LevelButtons[i].Stars.Length; j++)
@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
 			if (i < this.LevelButtons.Length - 1)
 			{
-				this.LevelButtons[i + 1].Button.interactable = highScore != 0;
+				this.LevelButtons[i + 1].Button.interactable = highScore >= 0;
 			}
 		}
 	}
