@@ -121,7 +121,8 @@ public class PlayerController : MonoBehaviour
 	private float desiredDrunkLevel;
 	private float currentDrunkLevel;
 	private bool cannotStopMoving;
-	private float fartScale;
+	private float activeFartScale;
+	private float pendingFartScale;
 
 	private void Start()
 	{
@@ -273,9 +274,9 @@ public class PlayerController : MonoBehaviour
 		this.horizontalSpeedRatio = this.facing * this.DashHorizontalSpeed.Evaluate(this.dashTime);
 		this.dashTime += deltaTime;
 
-		if (this.fartScale != 0f)
+		if (this.activeFartScale != 0f)
 		{
-			this.horizontalSpeedRatio *= this.fartScale;
+			this.horizontalSpeedRatio *= this.activeFartScale;
 		}
 
 		this.rigidbody.MovePosition(position + Vector2.right * this.horizontalSpeedRatio * this.MovementSpeed * deltaTime);
@@ -295,15 +296,15 @@ public class PlayerController : MonoBehaviour
 			acceleration *= this.JumpAirControl.Evaluate(this.airTime);
 			this.verticalSpeed = this.JumpVerticalSpeed.Evaluate(this.airTime);
 
-			if (this.fartScale != 0f)
+			if (this.activeFartScale != 0f)
 			{
 				if (this.verticalSpeed < 0f)
 				{
-					this.fartScale = 0f;
+					this.activeFartScale = 0f;
 				}
 				else
 				{
-					this.verticalSpeed *= this.fartScale;
+					this.verticalSpeed *= this.activeFartScale;
 				}
 			}
 		}
@@ -384,8 +385,11 @@ public class PlayerController : MonoBehaviour
 
 		this.Animator.SetBool("IsJumping", true);
 
-		if (this.fartScale != 0f)
+		if (this.pendingFartScale != 0f)
 		{
+			this.activeFartScale = this.pendingFartScale;
+			this.pendingFartScale = 0f;
+
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
@@ -424,8 +428,11 @@ public class PlayerController : MonoBehaviour
 		this.dashTime = float.Epsilon;
 		this.Animator.SetTrigger("DashStart");
 
-		if (this.fartScale != 0f)
+		if (this.pendingFartScale != 0f)
 		{
+			this.activeFartScale = this.pendingFartScale;
+			this.pendingFartScale = 0f;
+
 			this.Animator.SetBool("EffectFartReady", false);
 			this.PlaySound(this.Fart);
 
@@ -443,7 +450,7 @@ public class PlayerController : MonoBehaviour
 		this.dashTime = -this.DashCooldown;
 		this.hasLandedAfterDash = false;
 		this.airTime = 0;
-		this.fartScale = 0f;
+		this.activeFartScale = 0f;
 
 		this.Animator.SetTrigger("DashEnd");
 	}
@@ -559,7 +566,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnCollisionStay2D(Collision2D collision)
 	{
 		if (this.dashTime > 0f && collision.collider.tag == "DashDestructible")
 		{
@@ -639,7 +646,7 @@ public class PlayerController : MonoBehaviour
 
 			this.CameraAnimator.SetBool("EffectVisionReduced", false);
 
-			this.fartScale = 0f;
+			this.pendingFartScale = 0f;
 			this.Animator.SetBool("EffectFartReady", false);
 
 			this.CancelInvoke(nameof(SpawnFollowingDanger));
@@ -647,7 +654,7 @@ public class PlayerController : MonoBehaviour
 
 		if (potion.FartScale != 0f)
 		{
-			this.fartScale = potion.FartScale;
+			this.pendingFartScale = potion.FartScale;
 			this.Animator.SetBool("EffectFartReady", true);
 		}
 
