@@ -334,6 +334,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 560728463}
+    - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Luco_s_board_2
+      objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055173, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -455,6 +459,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 560728463}
+    - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: s_board_3
+      objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055173, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2490,6 +2498,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 560728463}
+    - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: s_board_2
+      objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055173, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3147,6 +3159,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 560728463}
+    - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Luco_s_board_3
+      objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055173, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3909,7 +3925,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ZooProgramming
+          m_StringArgument: s_board_1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1660826578
@@ -5139,6 +5155,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 560728463}
+    - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Luco_s_board_1
+      objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055173, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8580,6 +8600,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 560728463}
+    - target: {fileID: 8578344230415055172, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: s_board_1
+      objectReference: {fileID: 0}
     - target: {fileID: 8578344230415055173, guid: daff948bb465efd41b0a6cfb43cd9508, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
